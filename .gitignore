@@ -1,8 +1,9 @@
 __pycache__/
 *.py[cod]
-build/
 develop-eggs/
 dist/
+build/
+node_modules/
 eggs/
 .eggs/
 *.egg-info/
@@ -15,8 +16,6 @@ pip-log.txt
 instance/
 .webassets-cache
 .sass-cache
-
-plumbum/static/css/
 
 docs/_build/
 

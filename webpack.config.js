@@ -1,26 +1,29 @@
 var path = require('path');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
 
 var rootAssetPath = './assets';
 
 module.exports = {
   entry: {
     app_js: [
-      rootAssetPath + '/scripts/entry.js'
+      'plumbum/static/js/tether.js',
+      //rootAssetPath + '/scripts/entry.js'
     ],
     app_css: [
-      rootAssetPath + '/styles/main.css'
+      'plumbum/static/css/plumbum.css'
+      //rootAssetPath + '/styles/main.css'
     ]
   },
   output: {
-    path: './build/public',
+    path: path.resolve(__dirname, './build/public'),
     publicPath: 'http://localhost:2992/assets/',
-    filename: '[name].[chunkhash].js'
+    filename: '[name].[chunkhash].js',
     chunkFilename: '[id].[chunkhash].js'
   },
   resolve: {
-    extensions: ['', '.js', '.css']
+    extensions: ['.js', '.css']
   },
   module: {
     loaders: [
@@ -31,7 +34,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        loader: ExtractTextPlugin.extract('style-loader', 'css-loader')
+        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader'})
       }
     ]
   },
