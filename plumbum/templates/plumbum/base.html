@@ -13,6 +13,7 @@
     {% endblock %}
     {% block head_css %}
       <link href="{{ url_for('plumbum.static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+      <link href="{{ url_for('plumbum.static', filename='css/font-awesome.min.css') }}" rel="stylesheet">
       <style type="text/css" media="screen">
         pre { font-family: monospace; }
       </style>
@@ -58,7 +59,7 @@
 
     {% block tail %}{% endblock %}
 
-    {% block debug %}
+    {#% block debug %}
       {% if config.DEBUG %}
         <div class="container">
 <pre>
@@ -70,7 +71,7 @@
 </pre>
         </div>
       {% endif %}
-    {% endblock %}
+    {% endblock %#}
   </body>
 </html>
 {# vim:ft=htmljinja:sw=2
