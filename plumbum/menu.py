@@ -49,7 +49,7 @@ class BaseMenu(object):
 
 
 class MenuView(BaseMenu):
-    "Admin view menu item"
+    "Plumbum view menu item"
 
     def __init__(self, name, view=None, cache=True):
         super(MenuView, self).__init__(name,
