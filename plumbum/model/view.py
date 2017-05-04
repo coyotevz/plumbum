@@ -146,7 +146,7 @@ class ModelView(BaseView):
     Base form class. Will be used by form scaffolding function when creating model form.
     """
 
-    form_args = None
+    field_args = None
     """
     Dictionary of form field arguments. Refer to WTForms documentation.
     """
