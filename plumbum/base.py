@@ -206,12 +206,12 @@ class PlumbumIndexView(BaseView):
                  template='plumbum/index.html', menu_class_name=None,
                  menu_icon_type=None, menu_icon_value=None):
         super(PlumbumIndexView, self).__init__(name or 'Home',
-                                             endpoint or 'plumbum',
-                                            '/plumbum' if url is None else url,
-                                            'static',
-                                            menu_class_name=menu_class_name,
-                                            menu_icon_type=menu_icon_type,
-                                            menu_icon_value=menu_icon_value)
+                                               endpoint or 'plumbum',
+                                               '/plumbum' if url is None else
+                                               url, 'static',
+                                               menu_class_name=menu_class_name,
+                                               menu_icon_type=menu_icon_type,
+                                               menu_icon_value=menu_icon_value)
         self._template = template
 
     @expose()
@@ -297,8 +297,8 @@ class Plumbum(object):
                 raise Exception('Cannot assign two Plumbum() instances with same '
                                 'URL and subdomain to the same application.')
 
-        plumbumss.append(self)
-        self.app.extensions['plumbum'] = plumbum
+        plumbums.append(self)
+        self.app.extensions['plumbum'] = plumbums
 
     def menu(self):
         "Return the menu hierarchy"
