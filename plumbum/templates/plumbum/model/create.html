@@ -1,0 +1,11 @@
+{% extends "plumbum/master.html" %}
+{% import "plumbum/_form.html" as forms with context %}
+
+{% block body %}
+  {% block create_form %}
+    {{ forms.render_form(form, return_url, None, form_opts) }}
+  {% endblock %}
+{% endblock %}
+
+{# ft=htmljinja:sw=2
+#}

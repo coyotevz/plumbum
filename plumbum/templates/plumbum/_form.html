@@ -1,0 +1,61 @@
+{# vim:ft=htmljinja:sw=2
+#}
+
+{% macro render_field(form, field, kwargs={}, caller=None) %}
+  <div class="form-group">
+    <label for="{{ field.id }}" class="form-control-label">
+      {{ field.label.text }}{% if field.flags.required %}<span style="color: red"> *</span>{% endif %}
+    </label>
+
+    {{ field(class_='form-control', **kwargs)|safe }}
+  </div>
+{% endmacro %}
+
+{% macro render_form_fields(form, form_opts=None) %}
+  {% if form.hidden_tag is defined %}
+    {{ form.hidden_tag() }}
+  {% endif %}
+  {% if form_opts and form_opts.form_rules %}
+    <!-- TODO: handle form options -->
+  {% else %}
+    {% for f in form if f.widget.input_type != 'hidden' %}
+      {% if form_opts %}
+        {% set kwargs = form_opts.widget_args.get(f.short_name, {}) %}
+      {% else %}
+        {% set kwargs = {} %}
+      {% endif %}
+      {{ render_field(form, f, kwargs) }}
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% macro render_form_buttons(cancel_url, extra=None, is_modal=False) %}
+  <hr>
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10 submit-row">
+      <input type="submit" class="btn btn-primary" value="{{ 'Save' }}"/>
+      {% if extra %}
+        {{ extra }}
+      {% endif %}
+      {% if cancel_url %}
+        <a href="{{ cancel_url }}" class="btn btn-danger" role="button"{% if is_modal %} data-dismiss="modal"{% endif %}>{{ 'Cancel' }}</a>
+      {% endif %}
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro form_tag(action=None) %}
+  <form action="{{ action or '' }}" method="post" role="form" class="pb-form form-horizontal" enctype="multipart/form-data">
+    {{ caller() }}
+  </form>
+{% endmacro %}
+
+{% macro render_form(form, cancel_url, extra=None, form_opts=None, action=None, is_modal=False) %}
+  {% call form_tag(action=action) %}
+  {{ render_form_fields(form, form_opts=form_opts) }}
+  {{ render_form_buttons(cancel_url, extra, is_modal) }}
+  {% endcall %}
+{% endmacro %}
+{# vim:ft=htmljinja:sw=2
+#}
+
