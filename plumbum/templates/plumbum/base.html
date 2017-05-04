@@ -12,8 +12,7 @@
       <meta name="author" content="">
     {% endblock %}
     {% block head_css %}
-      <link href="{{ url_for('plumbum.static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-      <link href="{{ url_for('plumbum.static', filename='css/font-awesome.min.css') }}" rel="stylesheet">
+      <link href="{{ url_for('plumbum.static', filename='css/plumbum.css') }}" rel="stylesheet">
       <style type="text/css" media="screen">
         pre { font-family: monospace; }
       </style>
@@ -51,10 +50,10 @@
     {% endblock %}
 
     {% block tail_js %}
-      <script src="{{ url_for('plumbum.static', filename='js/jquery-3.2.1.slim.min.js') }}" type="text/javascript"></script>
-      <script src="{{ url_for('plumbum.static', filename='js/tether.min.js') }}" type="text/javascript"></script>
-      <script src="{{ url_for('plumbum.static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
-      <script src="{{ url_for('plumbum.static', filename='js/axios.min.js') }}" type="text/javascript"></script>
+      <script src="{{ url_for('plumbum.static', filename='js/jquery-3.2.1.slim.js') }}" type="text/javascript"></script>
+      <script src="{{ url_for('plumbum.static', filename='js/tether.js') }}" type="text/javascript"></script>
+      <script src="{{ url_for('plumbum.static', filename='js/bootstrap.js') }}" type="text/javascript"></script>
+      <script src="{{ url_for('plumbum.static', filename='js/axios.js') }}" type="text/javascript"></script>
     {% endblock %}
 
     {% block tail %}{% endblock %}

@@ -7,6 +7,7 @@ from flask import Blueprint, render_template, abort, g, url_for
 from jinja2 import contextfunction
 
 from .menu import MenuView
+from . import tools
 
 
 def set_current_view(view):
@@ -296,6 +297,15 @@ class Plumbum(object):
             if p.url == self.url and p.subdomain == self.subdomain:
                 raise Exception('Cannot assign two Plumbum() instances with same '
                                 'URL and subdomain to the same application.')
+        else:
+            # This is the first instance, so if in debug, run scss compiler
+            print('This is the first instance', self.app.debug, tools.is_running_main(), __file__)
+            if self.app.debug and not tools.is_running_main():
+                import os.path
+                dir_path = os.path.dirname(os.path.abspath(__file__))
+                infile = '{}/static/scss/plumbum.scss'.format(dir_path)
+                outfile = '{}/static/css/plumbum.css'.format(dir_path)
+                tools.run_scss(infile, outfile)
 
         plumbums.append(self)
         self.app.extensions['plumbum'] = plumbums
