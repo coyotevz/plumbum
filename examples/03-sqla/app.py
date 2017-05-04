@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = '1234'
 
+app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sample_data.db'
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -80,4 +81,4 @@ pb.add_view(PostView(db.session))
 
 if __name__ == "__main__":
     db.create_all()
-    app.run(debug=True)
+    app.run(port=8000)
