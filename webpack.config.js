@@ -1,55 +1,47 @@
 var path = require('path')
 var webpack = require('webpack')
+var CompressionPlugin = require('compression-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var AutoPrefixerPlugin = require('autoprefixer')
 var ManifestRevisionPlugin = require('manifest-revision-webpack-plugin')
 
-// Environment detection
-var node_env = process.env.NODE_ENV || 'development'
+var ROOT_PATH = path.resolve(__dirname, '.')
+var ROOT_ASSET_PATH = './plumbum/static'
+var BUILD_OUT_PATH = path.resolve(ROOT_PATH, 'build/public')
+var IS_PRODUCTION = process.env.NODE_ENV === 'production'
+var IS_DEV_SERVER = process.argv[1].indexOf('webpack-dev-server') !== -1
+var DEV_SERVER_HOST = process.env.DEV_SERVER_HOST || 'localhost'
+var DEV_SERVER_PORT = parseInt(process.env.DEV_SERVER_PORT, 10) || 2992
 
-var rootAssetPath = './plumbum/static'
-var buildOutPath = path.resolve(__dirname, 'build/public')
-
-var plugins = [
-  new webpack.NoEmitOnErrorsPlugin(),
-  new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js'}),
-  new ExtractTextPlugin('[name].[hash:7].css'),
-  new ManifestRevisionPlugin(path.join('build', 'manifest.json'), {
-    rootAssetPath: rootAssetPath,
-    ignorePaths: ['/js', '/css', '/scss'],
-  })
-]
-
-if (node_env !== 'development') {
-   plugins = (plugins || []).concat([
-    new webpack.optimize.UglifyJsPlugin({compressor: { warnings: false }}),
-  ])
-}
-
-module.exports = {
+var config = {
   entry: {
     vendor: [
-      rootAssetPath + '/js/vendor/jquery-3.2.1.slim.js',
-      rootAssetPath + '/js/vendor/tether.js',
-      rootAssetPath + '/js/vendor/bootstrap.js',
-      rootAssetPath + '/js/vendor/axios.js',
+      ROOT_ASSET_PATH + '/js/vendor/jquery-3.2.1.slim.js',
+      ROOT_ASSET_PATH + '/js/vendor/tether.js',
+      ROOT_ASSET_PATH + '/js/vendor/bootstrap.js',
+      ROOT_ASSET_PATH + '/js/vendor/axios.js',
     ],
     script: [
-      rootAssetPath + '/js/app/plumbum.js',
+      ROOT_ASSET_PATH + '/js/app/plumbum.js',
     ],
     style: [
-      rootAssetPath + '/scss/plumbum.scss',
+      ROOT_ASSET_PATH + '/scss/plumbum.scss',
     ]
   },
+
   output: {
-    path: buildOutPath,
-    publicPath: 'http://localhost:2992/assets/',
+    path: BUILD_OUT_PATH,
+    publicPath: '/assets/webpack',
     filename: '[name].[hash:7].js',
     chunkFilename: '[id].[hash:7].js',
   },
+
+  devtool: 'cheap-module-source-map',
+
   resolve: {
     extensions: ['.js', '.css'],
   },
+
   module: {
     rules: [
       {
@@ -89,5 +81,48 @@ module.exports = {
       },
     ]
   },
-  plugins: plugins,
+
+  plugins: [
+    new ManifestRevisionPlugin(path.join('build', 'manifest.json'), {
+      rootAssetPath: ROOT_ASSET_PATH,
+      ignorePaths: ['/js', '/css', '/scss'],
+    }),
+
+    new ExtractTextPlugin('[name].[hash:7].css'),
+  ],
 }
+
+if (IS_PRODUCTION) {
+  console.log('PRODUCTION detected')
+  config.devtool = 'source-map'
+  config.plugins.push(
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false,
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true
+    }),
+    new webpack.DefinePlugin({
+      'process.env': { NODE_ENV: JSON.stringify('production') }
+    }),
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+    })
+  )
+}
+
+if (IS_DEV_SERVER) {
+  console.log('DEVSERVER detected')
+  config.devtool = 'cheap-module-eval-source-map'
+  config.devServer = {
+    host: DEV_SERVER_HOST,
+    port: DEV_SERVER_PORT,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    stats: 'errors-only',
+  }
+  config.output.publicPath = '//' + DEV_SERVER_HOST + ':' + DEV_SERVER_PORT + config.output.publicPath
+}
+
+module.exports = config
