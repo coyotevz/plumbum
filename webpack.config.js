@@ -1,6 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
 var CompressionPlugin = require('compression-webpack-plugin')
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var AutoPrefixerPlugin = require('autoprefixer')
 var ManifestRevisionPlugin = require('manifest-revision-webpack-plugin')
@@ -101,9 +102,7 @@ if (IS_PRODUCTION) {
       minimize: true,
       debug: false,
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true
-    }),
+    new UglifyJsPlugin(),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify('production') }
     }),
