@@ -1,48 +1,47 @@
 var path = require('path');
-
+var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
 
-var rootAssetPath = './assets';
+var extractSass = new ExtractTextPlugin({
+  filename: "[name].[contenthash].css",
+  disable: process.env.NODE_ENV === "devlopment",
+});
 
 module.exports = {
   entry: {
     app_js: [
-      'plumbum/static/js/tether.js',
-      //rootAssetPath + '/scripts/entry.js'
+      './plumbum/static/js/jquery-3.2.1.slim.js',
     ],
-    app_css: [
-      'plumbum/static/css/plumbum.css'
-      //rootAssetPath + '/styles/main.css'
-    ]
+    app_css: './plumbum/static/scss/plumbum.scss',
   },
   output: {
-    path: path.resolve(__dirname, './build/public'),
-    publicPath: 'http://localhost:2992/assets/',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/static/',
     filename: '[name].[chunkhash].js',
-    chunkFilename: '[id].[chunkhash].js'
   },
   resolve: {
-    extensions: ['.js', '.css']
+    extensions: ['.js', '.css'],
   },
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.js$/i,
+        test: /\.js$/,
         loader: 'script-loader',
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
-        test: /\.css$/i,
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader'})
-      }
+        test: /\.scss$/,
+        use: extractSass.extract({
+          use: [
+            { loader: "css-loader" },
+            { loader: "sass-loader" },
+          ],
+          fallback: "style-loader",
+        })
+      },
     ]
   },
   plugins: [
-    new ExtractTextPlugin('[name].[chunkhash].css'),
-    new ManifestRevisionPlugin(path.join('build', 'manifest.json'), {
-      rootAssetPath: rootAssetPath,
-      ignorePaths: ['/styles', '/scripts']
-    })
+    extractSass,
   ]
 };
