@@ -102,9 +102,17 @@ if (IS_PRODUCTION) {
       minimize: true,
       debug: false,
     }),
-    new UglifyJsPlugin(),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify('production') }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      compress: {
+        warnings: false,
+      }
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
     }),
     new CompressionPlugin({
       asset: '[path].gz[query]',
