@@ -55,6 +55,7 @@ const devConfig = () => {
       rules: [
         {
           test: /\.js$/,
+          exclude: /vendor/,
           enforce: 'pre',
           loader: 'eslint-loader',
           options: {
