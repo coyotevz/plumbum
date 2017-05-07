@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const BabiliPlugin = require('babili-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const extractCss = new ExtractTextPlugin({
   filename: '[name].[chunkhash:8].css',
@@ -44,6 +46,10 @@ const prodConfig = () => {
   return merge(config, {
     plugins: [
       new CleanWebpackPlugin([PATHS.build]),
+      new BabiliPlugin(),
+      new CompressionPlugin({
+        asset: '[path].gz[query]',
+      }),
     ],
   });
 };
