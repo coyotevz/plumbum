@@ -11,6 +11,7 @@
     "eslint": "^3.19.0",
     "eslint-loader": "^1.7.1",
     "extract-text-webpack-plugin": "^2.1.0",
+    "manifest-revision-webpack-plugin": "^0.4.0",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-merge": "^4.1.0"

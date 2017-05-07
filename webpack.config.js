@@ -5,6 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const BabiliPlugin = require('babili-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
 
 const extractCss = new ExtractTextPlugin({
   filename: '[name].[chunkhash:8].css',
@@ -37,6 +38,10 @@ const config = {
     extractCss,
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
+    }),
+    new ManifestRevisionPlugin(path.join(PATHS.build, 'manifest.json'), {
+      rootAssetPath: './plumbum/static',
+      ignorePaths: ['/fonts', '/scss'],
     }),
   ],
 };
