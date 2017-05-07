@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -6,6 +7,10 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const extractCss = new ExtractTextPlugin({
   filename: '[name].[chunkhash:8].css',
 });
+
+const vendorPath = (name) => {
+  return path.resolve(__dirname, 'plumbum/static/js/vendor/' + name);
+};
 
 const PATHS = {
   app: path.resolve(__dirname, 'plumbum/static/js/app/main.js'),
@@ -15,6 +20,12 @@ const PATHS = {
 const config = {
   entry: {
     app: PATHS.app,
+    vendor: [
+      vendorPath('jquery-3.2.1.slim.js'),
+      vendorPath('tether.js'),
+      vendorPath('bootstrap.js'),
+      vendorPath('axios.js'),
+    ],
   },
   output: {
     path: PATHS.build,
@@ -22,6 +33,9 @@ const config = {
   },
   plugins: [
     extractCss,
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+    }),
   ],
 };
 
