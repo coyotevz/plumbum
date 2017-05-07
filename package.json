@@ -1,22 +1,15 @@
 {
   "scripts": {
-    "start": "node_modules/.bin/webpack-dev-server --progress --colors --port 2992 --content-base build/public",
-    "build": "node_modules/.bin/webpack --progress --colors"
+    "start": "webpack-dev-server --env development --progress",
+    "build": "webpack --env production --progress"
   },
-  "dependencies": {
-    "autoprefixer": "^6.7.7",
-    "compression-webpack-plugin": "^0.4.0",
-    "css-loader": "^0.28.1",
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.16",
+    "eslint": "^3.19.0",
+    "eslint-loader": "^1.7.1",
     "extract-text-webpack-plugin": "^2.1.0",
-    "file-loader": "^0.11.1",
-    "manifest-revision-webpack-plugin": "^0.4.0",
-    "node-sass": "^4.5.2",
-    "sass-loader": "^6.0.3",
-    "script-loader": "^0.7.0",
-    "style-loader": "^0.17.0",
-    "uglifyjs-webpack-plugin": "^0.4.3",
-    "url-loader": "^0.5.8",
-    "webpack": "^2.5.0",
-    "webpack-dev-server": "^2.4.5"
+    "webpack": "^2.5.1",
+    "webpack-dev-server": "^2.4.5",
+    "webpack-merge": "^4.1.0"
   }
 }
