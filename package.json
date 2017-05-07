@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "lint:js": "eslint app/ webpack.*.js --cache",
     "start": "webpack-dev-server --env development --progress",
     "build": "webpack --env production --progress"
   },

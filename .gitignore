@@ -16,6 +16,7 @@ pip-log.txt
 instance/
 .webassets-cache
 .sass-cache
+.eslintcache
 
 docs/_build/
 
