@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
@@ -61,6 +62,10 @@ const prodConfig = () => {
 
 const devConfig = () => {
   console.log('env DEVELOPMENT detected');
+  // Ensure PATHS.build directory exists to put manifest.json file
+  if (!fs.existsSync(PATHS.build)) {
+    fs.mkdirSync(PATHS.build);
+  }
   return merge(config, {
     module: {
       rules: [
