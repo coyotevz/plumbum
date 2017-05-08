@@ -2,10 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const BabiliPlugin = require('babili-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 const ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
 
 const extractCss = new ExtractTextPlugin({
@@ -18,6 +18,7 @@ const vendorPath = (name) => {
 
 const PATHS = {
   app: path.resolve(__dirname, 'plumbum/static/js/app/main.js'),
+  style: path.resolve(__dirname, 'plumbum/static/scss/plumbum.scss'),
   build: path.resolve(__dirname, 'plumbum/static/webpack'),
 };
 
@@ -30,10 +31,62 @@ const config = {
       vendorPath('bootstrap.js'),
       vendorPath('axios.js'),
     ],
+    style: PATHS.style,
   },
   output: {
     path: PATHS.build,
     filename: '[name].[chunkhash:8].js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true,
+        },
+      },
+      {
+        test: /\.css$/,
+        use: extractCss.extract({
+          use: [
+            'css-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => ([ autoprefixer ]),
+              },
+            },
+          ],
+          fallback: 'style-loader',
+        }),
+      },
+      {
+        test: /\.scss$/,
+        use: extractCss.extract({
+          use: [
+            'css-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => ([ autoprefixer ]),
+              },
+            },
+            'sass-loader',
+          ],
+          fallback: 'style-loader',
+        }),
+      },
+      {
+        test: /\.(eot|ttf|woff|woff2|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: './font/[name].[hash:8].[ext]',
+          },
+        },
+      },
+    ],
   },
   plugins: [
     extractCss,
@@ -53,9 +106,6 @@ const prodConfig = () => {
     plugins: [
       new CleanWebpackPlugin([PATHS.build]),
       new BabiliPlugin(),
-      new CompressionPlugin({
-        asset: '[path].gz[query]',
-      }),
     ],
   });
 };
