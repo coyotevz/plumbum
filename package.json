@@ -1,7 +1,8 @@
 {
   "scripts": {
+    "clean": "rm -rf plumbum/static/webpack",
     "lint:js": "eslint app/ webpack.*.js --cache",
-    "start": "webpack-dev-server --env development --progress",
+    "start": "npm run clean && webpack-dev-server --env development --progress",
     "build": "webpack --env production --progress"
   },
   "devDependencies": {

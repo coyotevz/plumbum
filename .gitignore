@@ -3,6 +3,7 @@ __pycache__/
 develop-eggs/
 dist/
 build/
+plumbum/static/webpack
 node_modules/
 eggs/
 .eggs/

@@ -18,7 +18,7 @@ const vendorPath = (name) => {
 
 const PATHS = {
   app: path.resolve(__dirname, 'plumbum/static/js/app/main.js'),
-  build: path.resolve(__dirname, 'build'),
+  build: path.resolve(__dirname, 'plumbum/static/webpack'),
 };
 
 const config = {
@@ -41,7 +41,7 @@ const config = {
       name: 'vendor',
     }),
     new ManifestRevisionPlugin(path.join(PATHS.build, 'manifest.json'), {
-      rootAssetPath: './plumbum/static',
+      rootAssetPath: './plumbum/static/webpack',
       ignorePaths: ['/fonts', '/scss'],
     }),
   ],
@@ -66,7 +66,12 @@ const devConfig = () => {
   if (!fs.existsSync(PATHS.build)) {
     fs.mkdirSync(PATHS.build);
   }
+  const host = process.env.HOST ? process.env.HOST : 'localhost';
+  const port = process.env.PORT ? process.env.PORT : 2992;
   return merge(config, {
+    output: {
+      publicPath: 'http://' + host + ':' + port + '/',
+    },
     module: {
       rules: [
         {
@@ -89,8 +94,8 @@ const devConfig = () => {
       stats: 'errors-only',
 
       // Parse host and port from env to allow customization
-      host: process.env.HOST, // Defaults to 'localhost'
-      port: process.env.PORT, // Defaults to 8080
+      host: host, // Defaults to 'localhost'
+      port: port, // Defaults to 8080
 
       // overlay: true captures only errors
       overlay: {

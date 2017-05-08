@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 
+import os.path
 from functools import wraps
 from re import sub
 
 from flask import Blueprint, render_template, abort, g, url_for
 from jinja2 import contextfunction
+from flask_webpack import Webpack
 
 from .menu import MenuView
 from . import tools
+
+
+CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 def set_current_view(view):
@@ -301,14 +306,20 @@ class Plumbum(object):
             # This is the first instance, so if in debug, run scss compiler
             print('This is the first instance', self.app.debug, tools.is_running_main(), __file__)
             if self.app.debug and not tools.is_running_main():
-                import os.path
-                dir_path = os.path.dirname(os.path.abspath(__file__))
-                infile = '{}/static/scss/plumbum.scss'.format(dir_path)
-                outfile = '{}/static/css/plumbum.css'.format(dir_path)
-                tools.run_scss(infile, outfile)
+                infile = '{}/static/scss/plumbum.scss'.format(CURRENT_PATH)
+                outfile = '{}/static/css/plumbum.css'.format(CURRENT_PATH)
+                #tools.run_scss(infile, outfile)
 
         plumbums.append(self)
         self.app.extensions['plumbum'] = plumbums
+
+        # Initialize Webpack plugin
+        # FIXME: Hardcoded, move to appropiate place
+        self.app.config.update({
+            'WEBPACK_MANIFEST_PATH': '{}/static/webpack/manifest.json'.format(CURRENT_PATH),
+        })
+        webpack = Webpack()
+        webpack.init_app(self.app)
 
     def menu(self):
         "Return the menu hierarchy"
