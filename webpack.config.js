@@ -5,7 +5,7 @@ const merge = require('webpack-merge');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const BabiliPlugin = require('babili-webpack-plugin');
+// const BabiliPlugin = require('babili-webpack-plugin');
 const ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
 
 const extractCss = new ExtractTextPlugin({
@@ -25,12 +25,13 @@ const PATHS = {
 const config = {
   entry: {
     app: PATHS.app,
-    vendor: [
-      vendorPath('jquery-3.2.1.slim.js'),
-      vendorPath('tether.js'),
-      vendorPath('bootstrap.js'),
-      vendorPath('axios.js'),
-    ],
+    vendor: vendorPath('vendor.js'),
+    //vendor: [
+    //  vendorPath('jquery-3.2.1.slim.js'),
+    //  vendorPath('tether.js'),
+    //  vendorPath('bootstrap.js'),
+    //  vendorPath('axios.js'),
+    //],
     style: PATHS.style,
   },
   output: {
@@ -93,9 +94,9 @@ const config = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
     }),
-    new ManifestRevisionPlugin(path.join(PATHS.build, 'manifest.json'), {
-      rootAssetPath: './plumbum/static/webpack',
-      ignorePaths: ['/fonts', '/scss'],
+    new ManifestRevisionPlugin(path.join('./plumbum/static/webpack', 'manifest.json'), {
+      rootAssetPath: './plumbum/static/',
+      ignorePaths: ['/webpack', '/fonts', '/scss'],
     }),
   ],
 };
@@ -103,9 +104,12 @@ const config = {
 const prodConfig = () => {
   console.log('env PRODUCTION detected');
   return merge(config, {
+    output: {
+      publicPath: '/static/plumbum/webpack/', // Exposed by flask
+    },
     plugins: [
       new CleanWebpackPlugin([PATHS.build]),
-      new BabiliPlugin(),
+      // new BabiliPlugin(),
     ],
   });
 };
@@ -146,6 +150,9 @@ const devConfig = () => {
       // Parse host and port from env to allow customization
       host: host, // Defaults to 'localhost'
       port: port, // Defaults to 8080
+
+      // Allow CORS
+      headers: { 'Access-Control-Allow-Origin': '*' },
 
       // overlay: true captures only errors
       overlay: {

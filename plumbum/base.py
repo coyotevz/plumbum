@@ -321,6 +321,36 @@ class Plumbum(object):
         webpack = Webpack()
         webpack.init_app(self.app)
 
+        if self.app.debug:
+            self._attach_show_urls_view()
+
+    def _attach_show_urls_view(self):
+        @self.app.route('/urls')
+        def show_urls():
+            column_headers = ('Rule', 'Endpoint', 'Methods')
+            order = 'rule'
+            rows = [('-'*4, '-'*8, '-'*9)] # minimal values to take
+            rules = sorted(self.app.url_map.iter_rules(),
+                        key=lambda rule: getattr(rule, order))
+            for rule in rules:
+                rows.append((rule.rule, rule.endpoint, ', '.join(rule.methods)))
+
+            rule_l = len(max(rows, key=lambda r: len(r[0]))[0])
+            ep_l = len(max(rows, key=lambda r: len(r[1]))[1])
+            meth_l = len(max(rows, key=lambda r: len(r[2]))[2])
+
+            str_template = '%-' + str(rule_l) + 's' + \
+                        ' %-' + str(ep_l) + 's' + \
+                        ' %-' + str(meth_l) + 's'
+            table_width = rule_l + 2 + ep_l + 2 + meth_l
+
+            out = (str_template % column_headers) + '\n' + '-' * table_width
+            for row in rows[1:]:
+                out += '\n' + str_template % row
+
+            return out + '\n'
+
+
     def menu(self):
         "Return the menu hierarchy"
         return self._menu
