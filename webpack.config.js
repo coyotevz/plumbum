@@ -3,9 +3,12 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-// const BabiliPlugin = require('babili-webpack-plugin');
+const BabiliPlugin = require('babili-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ManifestRevisionPlugin = require('manifest-revision-webpack-plugin');
 
 const extractCss = new ExtractTextPlugin({
@@ -118,7 +121,16 @@ const prodConfig = () => {
     },
     plugins: [
       new CleanWebpackPlugin([PATHS.build]),
-      // new BabiliPlugin(),
+      new BabiliPlugin(),
+      new OptimizeCSSAssetsPlugin({
+        cssProcessor: cssnano,
+        cssProcessorOptions: {
+          removeAll: true,
+        },
+        // run cssnanon in safe mode to avoid potentially unsafe
+        // transformations
+        safe: true,
+      }),
     ],
   });
 };
