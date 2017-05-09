@@ -25,13 +25,12 @@ const PATHS = {
 const config = {
   entry: {
     app: PATHS.app,
-    vendor: vendorPath('vendor.js'),
-    //vendor: [
-    //  vendorPath('jquery-3.2.1.slim.js'),
-    //  vendorPath('tether.js'),
-    //  vendorPath('bootstrap.js'),
-    //  vendorPath('axios.js'),
-    //],
+    vendor: [
+      vendorPath('jquery-3.2.1.slim.js'),
+      vendorPath('tether.js'),
+      vendorPath('bootstrap.js'),
+      vendorPath('axios.js'),
+    ],
     style: PATHS.style,
   },
   output: {
@@ -43,6 +42,7 @@ const config = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        exclude: /vendor/,
         options: {
           cacheDirectory: true,
         },
@@ -91,8 +91,17 @@ const config = {
   },
   plugins: [
     extractCss,
+    new webpack.ProvidePlugin({
+      $: vendorPath('jquery-3.2.1.slim.js'),
+      jQuery: vendorPath('jquery-3.2.1.slim.js'),
+      Tether: vendorPath('tether.js'),
+      axios: vendorPath('axios.js'),
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
     }),
     new ManifestRevisionPlugin(path.join('./plumbum/static/webpack', 'manifest.json'), {
       rootAssetPath: './plumbum/static/',

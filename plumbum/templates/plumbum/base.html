@@ -50,6 +50,7 @@
     {% endblock %}
 
     {% block tail_js %}
+      <script src="{{ asset_url_for('manifest.js') }}" type="text/javascript"></script>
       <script src="{{ asset_url_for('vendor.js') }}" type="text/javascript"></script>
       <script src="{{ asset_url_for('app.js') }}" type="text/javascript"></script>
     {% endblock %}
