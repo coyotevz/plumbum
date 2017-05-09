@@ -21,8 +21,15 @@
     {% block head_tail %}{% endblock %}
   </head>
   <body>
-    {% block page_body %}
-      <div class="container">
+      {% block page_header %}
+      <header class="navbar navbar-light">
+        {% block brand %}
+        <a class="navbar-brand" href="{{ plumbum_view.plumbum.url }}">{{ plumbum_view.plumbum.name }}</a>
+        {% block brand %}
+      </header>
+      {% endblock %}
+      {% block page_body %}
+      <div class="container-fluid container-limited">
         <nav class="navbar navbar-light navbar-toggleable-md">
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#pbNavbarCollapse">
             <span class="navbar-toggler-icon"></span>
