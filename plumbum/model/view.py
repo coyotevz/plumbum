@@ -250,6 +250,11 @@ class ModelView(BaseView):
         # Labels
 
         # Forms
+        self._form_fields = tools.column_names(
+            model=self.model,
+            only_columns=self.form_columns,
+            excluded_columns=self.form_excluded_columns,
+        )
 
         # Search
 
@@ -285,13 +290,18 @@ class ModelView(BaseView):
         if self.form:
             return self.form
 
+        field_args = {field: { 'label': label } for field, label in self._form_fields}
+
+        if self.field_args:
+            field_args.update(self.field_args)
+
         # TODO: Caching form creation
         return build_form(
             self.model,
             base_class=self.form_base_class,
             only=self.form_columns,
             exclude=self.form_excluded_columns,
-            field_args=self.field_args,
+            field_args=field_args,
             ignore_hidden=self.ignore_hidden,
             extra_fields=self.form_extra_fields)
 
