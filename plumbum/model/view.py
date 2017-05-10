@@ -138,7 +138,7 @@ class ModelView(BaseView):
     # Form settings
     form = None
     """
-    Form class. Override if yo want to use cutom form for your model
+    Form class. Override if yo want to use custom form for your model
     """
 
     form_base_class = BaseForm
