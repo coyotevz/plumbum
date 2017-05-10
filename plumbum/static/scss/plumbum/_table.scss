@@ -1,0 +1,11 @@
+
+.table {
+  .thead-default th {
+    font-weight: normal;
+    border-bottom: none;
+  }
+
+  td {
+    color: $pb-text-color;
+  }
+}

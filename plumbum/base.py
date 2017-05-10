@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 
+import os.path
 from functools import wraps
 from re import sub
 
 from flask import Blueprint, render_template, abort, g, url_for
 from jinja2 import contextfunction
+from flask_webpack import Webpack
 
 from .menu import MenuView
 from . import tools
+
+
+CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 def set_current_view(view):
@@ -235,6 +240,7 @@ class Plumbum(object):
         if name is None:
             name = 'Plumbum'
         self.name = name
+        self.app_name = 'Plumbum'
 
         self.static_url_path = static_url_path
         self.subdomain = subdomain
@@ -301,14 +307,50 @@ class Plumbum(object):
             # This is the first instance, so if in debug, run scss compiler
             print('This is the first instance', self.app.debug, tools.is_running_main(), __file__)
             if self.app.debug and not tools.is_running_main():
-                import os.path
-                dir_path = os.path.dirname(os.path.abspath(__file__))
-                infile = '{}/static/scss/plumbum.scss'.format(dir_path)
-                outfile = '{}/static/css/plumbum.css'.format(dir_path)
-                tools.run_scss(infile, outfile)
+                infile = '{}/static/scss/plumbum.scss'.format(CURRENT_PATH)
+                outfile = '{}/static/css/plumbum.css'.format(CURRENT_PATH)
+                #tools.run_scss(infile, outfile)
 
         plumbums.append(self)
         self.app.extensions['plumbum'] = plumbums
+
+        # Initialize Webpack plugin
+        # FIXME: Hardcoded, move to appropiate place
+        self.app.config.update({
+            'WEBPACK_MANIFEST_PATH': '{}/static/webpack/manifest.json'.format(CURRENT_PATH),
+        })
+        webpack = Webpack()
+        webpack.init_app(self.app)
+
+        if self.app.debug:
+            self._attach_show_urls_view()
+
+    def _attach_show_urls_view(self):
+        @self.app.route('/urls')
+        def show_urls():
+            column_headers = ('Rule', 'Endpoint', 'Methods')
+            order = 'rule'
+            rows = [('-'*4, '-'*8, '-'*9)] # minimal values to take
+            rules = sorted(self.app.url_map.iter_rules(),
+                        key=lambda rule: getattr(rule, order))
+            for rule in rules:
+                rows.append((rule.rule, rule.endpoint, ', '.join(rule.methods)))
+
+            rule_l = len(max(rows, key=lambda r: len(r[0]))[0])
+            ep_l = len(max(rows, key=lambda r: len(r[1]))[1])
+            meth_l = len(max(rows, key=lambda r: len(r[2]))[2])
+
+            str_template = '%-' + str(rule_l) + 's' + \
+                        ' %-' + str(ep_l) + 's' + \
+                        ' %-' + str(meth_l) + 's'
+            table_width = rule_l + 2 + ep_l + 2 + meth_l
+
+            out = (str_template % column_headers) + '\n' + '-' * table_width
+            for row in rows[1:]:
+                out += '\n' + str_template % row
+
+            return out + '\n'
+
 
     def menu(self):
         "Return the menu hierarchy"

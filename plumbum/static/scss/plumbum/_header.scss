@@ -1,0 +1,75 @@
+/*
+ * Application header
+ */
+
+header {
+  &.plumbum-header {
+    padding: 0 16px;
+    z-index: 100;
+    min-height: $header-height;
+    background-color: $gray-light;
+    border: none;
+    border-bottom: 1px solid $border-color;
+
+    &.with-horizontal-nav {
+      border-bottom: none;
+    }
+
+    .container-fluid {
+      padding: 0;
+    }
+  }
+
+  .header-content {
+    min-height: $header-height;
+    padding-left: 30px;
+
+    .header-logo {
+      display: inline-block;
+      margin: 0 12px 0 2px;
+      position: relative;
+      top: 10px;
+      transition-duration: .3s;
+
+      svg,
+      img {
+        height: 28px;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .title-container {
+      padding-top: 14px;
+      flex: 1 1 auto;
+      overflow: hidden;
+    }
+
+    .title {
+      padding-right: 20px;
+      margin: 0;
+      font-size: 18px;
+      line-height: 22px;
+      display: inline-block;
+      font-weight: normal;
+      color: $pb-text-color;
+      vertical-align: top;
+      white-space: nowrap;
+
+      &.wrap {
+        white-space: normal;
+      }
+
+      a {
+        color: $pb-text-color;
+
+        &:hover {
+          text-decoration: underline;
+          color: $pb-header-nav-hover-color;
+        }
+      }
+    }
+  }
+}

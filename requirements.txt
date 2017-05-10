@@ -2,3 +2,4 @@ Flask
 Flask-SQLAlchemy
 flask-wtf
 wtforms-alchemy
+flask-webpack
