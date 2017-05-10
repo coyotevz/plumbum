@@ -39,7 +39,6 @@
             <div class="navbar-collapse navbar">
               {% block main_menu %}
                 <ul class="nav navbar-nav">
-                  {{ menu.render_menu() }}
                 </ul>
                 {% block menu_links %}{% endblock %}
                 {% block access_control %}{% endblock %}
@@ -51,7 +50,15 @@
     {% endblock %}
     {% block page_body %}
       <div class="page-with-sidebar">
-        <div class="layout-nav"></div>
+        <div class="layout-nav">
+          <div class="container-fluid">
+            <div class="scrolling-tabs-container">
+              <ul class="nav-links">
+                {{ menu.render_menu() }}
+              </ul>
+            </div>
+          </div>
+        </div>
         <div class="scrolling-tabs-container sub-nav-scroll"></div>
         <div class="content-wrapper page-with-layout-nav page-with-sub-nav">
           {% block body %}{% endblock %}
