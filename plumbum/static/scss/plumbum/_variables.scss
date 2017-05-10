@@ -1,4 +1,5 @@
 /* Layout */
+$sidebar-transition-duration: .15s;
 
 /* Color schema */
 $darken-normal-factor: 7%;
@@ -100,11 +101,18 @@ $placeholder-text-color: rgba(0, 0, 0, .42);
 /* Lists */
 
 /* Padding */
+$pb-padding: 16px;
+$pb-btn-padding: 10px;
+$pb-input-padding: 10px;
+$pb-vert-padding: 6px;
+$pb-padding-top: 10px;
+$pb-sidebar-padding: 22px;
 
 /* Misc */
 $header-height: 50px;
 $fixed-layout-width: 1280px;
 $limited-layout-width: 990px;
+$link-underline-blue: $blue-500;
 
 /* Fonts */
 $font-size-base: $pb-font-size;
