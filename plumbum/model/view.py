@@ -4,7 +4,7 @@ from urllib.parse import urljoin, urlparse
 
 from sqlalchemy import func
 
-from flask import request
+from flask import request, redirect, flash
 from jinja2 import contextfunction
 from ..base import BaseView, expose, prettify_class_name
 from ..form import BaseForm, build_form
@@ -250,6 +250,11 @@ class ModelView(BaseView):
         # Labels
 
         # Forms
+        self._form_fields = tools.column_names(
+            model=self.model,
+            only_columns=self.form_columns,
+            excluded_columns=self.form_excluded_columns,
+        )
 
         # Search
 
@@ -285,13 +290,18 @@ class ModelView(BaseView):
         if self.form:
             return self.form
 
+        field_args = {field: { 'label': label } for field, label in self._form_fields}
+
+        if self.field_args:
+            field_args.update(self.field_args)
+
         # TODO: Caching form creation
         return build_form(
             self.model,
             base_class=self.form_base_class,
             only=self.form_columns,
             exclude=self.form_excluded_columns,
-            field_args=self.field_args,
+            field_args=field_args,
             ignore_hidden=self.ignore_hidden,
             extra_fields=self.form_extra_fields)
 
@@ -344,7 +354,20 @@ class ModelView(BaseView):
 
     def create_model(self, form):
         "Create model from the form."
-        raise NotImplementedError()
+        try:
+            model = self.model()
+            form.populate_obj(model)
+            self.session.add(model)
+            self.session.commit()
+        except Exception as ex:
+            if not self.handle_view_exception(ex):
+                flash('Failed to create record. {error}'.format(error=ex), 'error')
+                log.exception('Failed to created record.')
+
+            self.session.rollback()
+            return False
+
+        return model
 
     def update_model(self, form, model):
         "Update model from the form."
@@ -453,8 +476,22 @@ class ModelView(BaseView):
         form = form_class()
 
         if form.validate_on_submit():
-            # TODO: handle valid form and redirect
-            pass
+            model = self.create_model(form)
+            print('model:', model)
+            if model:
+                flash('Record was successfully created.', 'success')
+                if '_add_another' in request.form:
+                    return redirect(request.url)
+                elif '_continue_editing' in request.form:
+                    # if we have a valid model, try to go to the edit view
+                    if model is not True:
+                        url = self.get_url('.edit_view', id=self.get_pk_value(model), url=return_url)
+                    else:
+                        url = return_url
+                    return redirect(url)
+                else:
+                    # save button
+                    return redirect(self.get_save_return_url(model, is_created=True))
 
         if self.create_modal and request.args.get('modal'):
             template = self.create_modal_template
@@ -464,3 +501,7 @@ class ModelView(BaseView):
         return self.render(template,
                            form=form,
                            return_url=return_url)
+
+    def get_save_return_url(self, model, is_created=False):
+        "Return url where use is redirected after successful form save."
+        return get_redirect_target() or self.get_url('.index_view')
