@@ -22,12 +22,12 @@
   </head>
   <body>
     {% block page_header %}
-      <header class="navbar navbar-plumbum with-horizontal-nav">
+      <header class="plumbum-header with-horizontal-nav">
         <div class="container-fluid">
-          <div class="header-content">
+          <div class="header-content d-flex justify-content-between">
             <div class="dropdown global-dropdown"></div>
             <div class="header-logo"></div>
-            <div class="title-container">
+            <div class="title-container d-flex align-items-start">
               <h1 class="title">
                 <span class="app-title">
                   <a class="app-path" href="#">{{ plumbum_view.plumbum.app_name }}</a>
