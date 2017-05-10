@@ -240,6 +240,7 @@ class Plumbum(object):
         if name is None:
             name = 'Plumbum'
         self.name = name
+        self.app_name = 'Plumbum'
 
         self.static_url_path = static_url_path
         self.subdomain = subdomain

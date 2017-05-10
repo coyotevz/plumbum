@@ -1,0 +1,50 @@
+/*
+ * Application header
+ */
+
+header {
+  &.navbar-plumbum {
+    padding: 0 16px;
+    margin-bottom: 0;
+    z-index: 100;
+    min-height: $header-height;
+    background-color: $gray-light;
+    border: none;
+    border-bottom: 1px solid $border-color;
+
+    @include media-breakpoint-up(xs) {
+      padding: 0 16px;
+    }
+
+    &.with-horizontal-nav {
+      border-bottom: none;
+    }
+
+    .container-fluid {
+      width: 100%;
+      padding: 0;
+
+      .nav > li > a {
+        color: $pb-text-color-secondary;
+        font-size: 18px;
+        padding: 0;
+        margin: (($header-height - 28) / 2) 3px;
+        margin-left: 8px;
+        height: 28px;
+        min-width: 32px;
+        line-height: 28px;
+        text-align: center;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        min-height: $header-height;
+        padding-left: 30px;
+
+
+      }
+    }
+  }
+}
