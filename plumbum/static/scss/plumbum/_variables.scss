@@ -115,6 +115,11 @@ $limited-layout-width: 990px;
 $link-underline-blue: $blue-500;
 
 /* Fonts */
+$regular-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sasn, Ubuntu, Cantarrel, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$monospace-font: 'Menlo', 'Liberation Mono', 'Consolas', 'DejaVu Sans Mono', 'Ubuntu Mono', 'Courier New', 'andale mono', 'lucida console', monospace;
+
+$font-family-sans-serif: $regular-font;
+$font-family-monospace: $monospace-font;
 $font-size-base: $pb-font-size;
 $font-size-lg: $pb-font-size * 1.25;
 $font-size-sm: $pb-font-size * 0.875;
