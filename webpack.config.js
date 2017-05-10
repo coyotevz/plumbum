@@ -141,7 +141,7 @@ const devConfig = () => {
   if (!fs.existsSync(PATHS.build)) {
     fs.mkdirSync(PATHS.build);
   }
-  const host = process.env.HOST ? process.env.HOST : '127.0.0.1';
+  const host = process.env.HOST ? process.env.HOST : 'localhost';
   const port = process.env.PORT ? process.env.PORT : 2992;
   return merge(config, {
     output: {
