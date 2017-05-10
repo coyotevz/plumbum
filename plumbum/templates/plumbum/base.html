@@ -75,7 +75,7 @@
             </ul>
           </div>
         </div>
-        <div class="content-wrapper page-with-layout-nav page-with-sub-nav">
+        <div class="content-wrapper page-with-layout-nav page-with-sub-nav mt-3">
           <div class="alert-wrapper">
             <div class="flash-container flash-container-page"></div>
           </div>
@@ -96,7 +96,7 @@
 
     {% block tail %}{% endblock %}
 
-    {#% block debug %}
+    {% block debug %}
     {% if config.DEBUG %}
       <div class="container">
 <pre>
@@ -108,7 +108,7 @@
 </pre>
     </div>
   {% endif %}
-  {% endblock %#}
+  {% endblock %}
 </body>
 </html>
 {# vim:ft=htmljinja:sw=2

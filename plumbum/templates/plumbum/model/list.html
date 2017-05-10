@@ -1,6 +1,7 @@
 {% extends "plumbum/master.html" %}
 
 {% block body %}
+  {% if data %}
   <div class="list-controls"></div>
   <div class="list-holder">
     <div class="nav-block"></div>
@@ -24,18 +25,19 @@
               </td>
             {% endfor %}
           </tr>
-        {% else %}
-          <tr>
-            <td colspan="999">
-              <div class="text-center">
-                {{ plumbum_view.get_empty_list_message() }}
-              </div>
-            </td>
-          </tr>
         {% endfor %}
       </table>
     </div>
   </div>
+  {% else %}
+    <div class="blankstate">
+      <h3>You haven't created any {{ plumbum_view.name|lower }} yet.</h3>
+      <p>{{ plumbum_view.get_empty_list_message() }}</p>
+      <p>
+        <a href="" class="btn btn-primary">Create a {{ plumbum_view.name }}</a>
+      </p>
+    </div>
+  {% endif %}
 {% endblock %}
 {# vim:ft=htmljinja:sw=2
 #}
