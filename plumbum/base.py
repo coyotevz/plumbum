@@ -180,7 +180,7 @@ class BaseView(metaclass=PlumbumViewMeta):
         kwargs['pformat'] = pformat
         # End debug purpose, delete pelase
 
-        kwargs['plumbum_view'] = self
+        kwargs['view'] = self
         kwargs['plumbum_base_template'] = self.plumbum.base_template
         kwargs.update(self._template_args)
 

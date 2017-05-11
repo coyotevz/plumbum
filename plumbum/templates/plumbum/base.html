@@ -3,7 +3,7 @@
 <!doctype html>
 <html lang="es-ar">
   <head>
-    <title>{% block title %}{{ plumbum_view.name }}{% endblock %}</title>
+    <title>{% block title %}{{ view.name }}{% endblock %}</title>
     {% block head_meta %}
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrom=1">
@@ -30,10 +30,10 @@
             <div class="title-container d-flex align-items-start">
               <h1 class="title">
                 <span class="app-title">
-                  <a class="app-path" href="#">{{ plumbum_view.plumbum.app_name }}</a>
+                  <a class="app-path" href="#">{{ view.plumbum.app_name }}</a>
                 </span>
                 /
-                <a class="project-title" href="{{ plumbum_view.plumbum.url }}">{{ plumbum_view.plumbum.name }}</a>
+                <a class="project-title" href="{{ view.plumbum.url }}">{{ view.plumbum.name }}</a>
               </h1>
             </div>
             <div class="navbar-collapse navbar">
