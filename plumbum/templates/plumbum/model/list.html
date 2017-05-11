@@ -35,7 +35,7 @@
   {% else %}
     <div class="blankstate">
       <h3>You haven't created any {{ plumbum_view.name|lower }} yet.</h3>
-      <p>{{ plumbum_view.get_empty_list_message() }}</p>
+      <p>{{ plumbum_view.empty_list_message }}</p>
       <p>
         <a href="{{ plumbum_view.get_url('.create_view') }}" class="btn btn-primary">Create a {{ plumbum_view.name }}</a>
       </p>

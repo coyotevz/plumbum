@@ -378,7 +378,8 @@ class ModelView(BaseView):
         raise NotImplementedError()
 
     # Various helpers
-    def get_empty_list_message(self):
+    @property
+    def empty_list_message(self):
         return 'There are no items in the table.'
 
 
