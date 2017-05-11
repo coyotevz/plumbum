@@ -70,8 +70,40 @@ $red-700: #a62d19;
 $red-800: #8b2615;
 $red-900: #711e11;
 
-$black: #000;
+
+// -------- Grays -------- from primercss
+$gray-000:        #fafbfc !default;
+$gray-100:        #f6f8fa !default;
+$gray-200:        #e1e4e8 !default;
+$gray-300:        #d1d5da !default;
+$gray-400:        #959da5 !default;
+$gray-500:        #6a737d !default;
+$gray-600:        #586069 !default;
+$gray-700:        #444d56 !default;
+$gray-800:        #2f363d !default;
+$gray-900:        #24292e !default;
+
+// -------- Purple --------
+$purple-000:      #f5f0ff !default;
+$purple-100:      #e6dcfd !default;
+$purple-200:      #d1bcf9 !default;
+$purple-300:      #b392f0 !default;
+$purple-400:      #8a63d2 !default;
+$purple-500:      #6f42c1 !default; // passes AA with #fff
+$purple-600:      #5a32a3 !default;
+$purple-700:      #4c2889 !default;
+$purple-800:      #3a1d6e !default;
+$purple-900:      #29134e !default;
+
+
+//$black: #000;
+$black: #1b1f23;
 $black-transparent: rgba(0, 0, 0, 0.3);
+$black-fade-15: transparentize($black, 0.85);
+$black-fade-30: transparentize($black, 0.7);
+$black-fade-50: transparentize($black, 0.5);
+$black-fade-70: transparentize($black, 0.3);
+$black-fade-85: transparentize($black, 0.15);
 
 $border-white-light: darken($white-light, $darken-border-factor);
 $border-white-normal: darken($white-normal, $darken-border-factor);
@@ -124,6 +156,7 @@ $link-underline-blue: $blue-500;
 /* Fonts */
 $regular-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sasn, Ubuntu, Cantarrel, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 $monospace-font: 'Menlo', 'Liberation Mono', 'Consolas', 'DejaVu Sans Mono', 'Ubuntu Mono', 'Courier New', 'andale mono', 'lucida console', monospace;
+$btn-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 
 $font-family-sans-serif: $regular-font;
 $font-family-monospace: $monospace-font;
@@ -131,6 +164,7 @@ $font-size-base: $pb-font-size;
 $font-size-lg: $pb-font-size * 1.25;
 $font-size-sm: $pb-font-size * 0.875;
 $font-size-xs: $pb-font-size * 0.75;
+$font-size-button: 13px;
 
 /* Table / Lists */
 $table-border-color: $white-normal;
@@ -146,3 +180,6 @@ $input-padding-x-lg: $pb-font-size * 1.5;
 $input-padding-y-lg: $pb-font-size * 0.75;
 
 $input-box-shadow-focus: 0 0 0 3px rgba($blue-500,0.3);
+
+$btn-input-focus-shadow: 0 0 0 3px rgba($blue-500, 0.3);
+$btn-active-shadow: inset 0 0.15em 0.3em rgba($black, 0.15);
