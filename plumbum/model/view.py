@@ -393,6 +393,34 @@ class ModelView(BaseView):
                         search=args.get('search', None),
                         filters=None)
 
+    def _get_filters(self, filters):
+        "Get active filters as dictionary of URL arguments and values"
+        kwargs = {}
+
+        if filters:
+            for i, pair in enumerate(filters):
+                idx, flt_name, value = pair
+
+                key = 'flt{}_{}'.format(i, self.get_filter_arg(idx, self._filters[idx]))
+                kwargs[key] = value
+        return kwargs
+
+    def _get_list_url(self, view_args):
+        "Generate page URL with current page, sort columns, etc."
+        page = view_args.page or None
+        desc = 1 if view_args.sort_desc else None
+
+        kwargs = dict(page=page, sort=view_args.sort, desc=desc, search=view_args.search)
+        kwargs.update(view_args.extra_args)
+
+        if view_args.page_size:
+            kwargs['page_size'] = view_args.page_size
+
+        kwargs.update(self._get_filters(view_args.filters))
+
+        return self.get_url('.index_view', **kwargs)
+
+
     def _get_list_value(self, context, model, name, column_formatters,
                         column_type_formatters):
         "Returns the value to be displayed"
@@ -462,6 +490,7 @@ class ModelView(BaseView):
 
             # Misc
             get_value=self.get_list_value,
+            return_url=self._get_list_url(view_args),
         )
 
     @expose('/new/', methods=('GET', 'POST'))

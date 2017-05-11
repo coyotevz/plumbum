@@ -2,9 +2,12 @@
 
 {% block body %}
   {% if data %}
-  <div class="list-controls"></div>
+  <div class="list-controls">
+    {% if plumbum_view.can_create %}
+      <a class="btn btn-sm" href="{{ plumbum_view.get_url('.create_view', url=return_url) }}" title="Create New Record">Create</a>
+    {% endif %}
+  </div>
   <div class="list-holder">
-    <div class="nav-block"></div>
     <div class="list-content-holder">
       <table class="table model-list">
         <thead class="thead-default">
