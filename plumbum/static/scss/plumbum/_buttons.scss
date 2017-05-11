@@ -104,7 +104,8 @@ $primary-dark:       #28a745 !default; // $green-500 on primercss
     border-color: $color;
   }
 
-  &:hover {
+  &:hover,
+  &.hover {
     color: $white;
     background-color: $color;
     background-image: linear-gradient(-180deg, lighten($color, 10%) 0%, $color 90%);
