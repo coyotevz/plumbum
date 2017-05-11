@@ -305,6 +305,10 @@ class ModelView(BaseView):
             ignore_hidden=self.ignore_hidden,
             extra_fields=self.form_extra_fields)
 
+    def get_save_return_url(self, model, is_created=False):
+        "Return url where use is redirected after successful form save."
+        return get_redirect_target() or self.get_url('.index_view')
+
     # Helpers
     def _get_column_by_idx(self, idx):
         "Return column index by"
@@ -532,6 +536,45 @@ class ModelView(BaseView):
                            form=form,
                            return_url=return_url)
 
-    def get_save_return_url(self, model, is_created=False):
-        "Return url where use is redirected after successful form save."
-        return get_redirect_target() or self.get_url('.index_view')
+
+    # Exports
+    @expose('/export/<export_type>/')
+    def export(self, export_type):
+        return_url = get_redirect_target() or self.get_url('.index_view')
+
+        if not self.can_export or (export_type not in self.export_types):
+            flash('Permission denied.', 'error')
+            return redirect(return_url)
+
+        if export_type == 'csv':
+            return self._export_csv(return_url)
+        else:
+            return se.f._export_tablib(export_type, return_url)
+
+    def _export_csv(self, return_url):
+        "Export a CSV of records as a stream."
+        count, data = self._export_data()
+
+        class Echo(object):
+            def write(self, value):
+                return value
+
+        writer = csv.writer(Echo())
+
+        def generate():
+            titles = [csv_encode(c[1]) for c in self._export_columns]
+            yield writer.writerow(titles)
+
+            for row in data:
+                vals = [csv_encode(self.get_export_value(row, c[0]))
+                        for c in self._export_columns]
+                yield writer.writerow(vals)
+
+        filename = self.get_export_filename(export_type='csv')
+        disposition = 'attachment;filename={}'.format(secure_filename(filename))
+
+        return Response(
+            stream_with_context(generate()),
+            headers={'Content-Disposition': disposition},
+            mimetype='text/csv'
+        )
