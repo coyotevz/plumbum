@@ -1,11 +1,22 @@
 # -*- coding: utf-8 -*-
 
+import csv
+import mimetypes
+import time
 from urllib.parse import urljoin, urlparse
 
 from sqlalchemy import func
-
-from flask import request, redirect, flash
+from sqlalchemy.exc import IntegrityError
+from werkzeug import secure_filename
+from flask import Response, request, redirect, flash, stream_with_context
 from jinja2 import contextfunction
+from wtforms.validators import ValidationError
+
+try:
+    import tablib
+except ImportError:
+    tablib = None
+
 from ..base import BaseView, expose, prettify_class_name
 from ..form import BaseForm, build_form
 from . import tools
@@ -107,7 +118,17 @@ class ModelView(BaseView):
     For example::
 
         class MyModelView(ModelView):
-            column_exclude_list = ('last_name', 'emial')
+            column_exclude_list = ('last_name', 'email')
+    """
+
+    column_export_list = None
+    """
+    Collection of the field names included in the export.
+    """
+
+    column_export_exclude_list = None
+    """
+    Collection of fields excluded for the export.
     """
 
     column_choices = None
@@ -130,9 +151,19 @@ class ModelView(BaseView):
     Dictionary of list view columns formatters.
     """
 
+    column_formatters_export = None
+    """
+    Dictionary of list view column formatters to be used for export.
+    """
+
     column_type_formatters = None
     """
     Dictionary of value type formatters to be used in the list view.
+    """
+
+    column_type_formatters_export = None
+    """
+    Dictionary of value type formatters to be used in the export.
     """
 
     # Form settings
@@ -197,6 +228,17 @@ class ModelView(BaseView):
     Customized rule for the create form.
     """
 
+    # Export settings
+    export_max_rows = 0
+    """
+    Maximum number of rows allowed for export.
+    """
+
+    export_types = ['csv']
+    """
+    A list of available export filetypes. `csv` only is default. Check tablib.
+    """
+
     # Pagination settings
     page_size = 20
     """
@@ -246,6 +288,13 @@ class ModelView(BaseView):
         # Detail view
 
         # Export view
+        self._export_columns = tools.column_names(
+            model=self.model,
+            only_columns=self.column_export_list or self.column_list,
+            excluded_columns=self.column_export_exclude_list,
+            display_all_relations=self.column_display_all_relations,
+            display_pk=self.column_display_pk,
+        )
 
         # Labels
 
@@ -268,10 +317,15 @@ class ModelView(BaseView):
             self.column_choices = self._column_choices_map = dict()
 
         # Column formatters
+        if self.column_formatters_export is None:
+            self.column_formatters_export = self.column_formatters
 
         # Type formatters
         if self.column_type_formatters is None:
             self.column_type_formatters = dict(typefmt.BASE_FORMATTERS)
+
+        if self.column_type_formatters_export is None:
+            self.column_type_formatters_export = dict(typefmt.EXPORT_FORMATTERS)
 
         # Filters
 
@@ -355,6 +409,23 @@ class ModelView(BaseView):
     def get_one(self, id):
         "Return one model by its id."
         return self.session.query(self.model).get(id)
+
+    def handle_view_exception(self, exc):
+        if isinstance(exc, IntegrityError):
+            flash('Inegrity error. {}'.format(exc), 'error')
+            return True
+
+        if isinstance(exc, ValidationError):
+            flash(exc, 'error')
+            return True
+
+        if self.plumbum.app.config.get('PLUMBUM_RAISE_ON_VIEW_EXCEPTION'):
+            raise
+
+        if self.plumbum.app.debug:
+            raise
+
+        return False
 
     def create_model(self, form):
         "Create model from the form."
@@ -460,6 +531,17 @@ class ModelView(BaseView):
             self.column_type_formatters,
         )
 
+    def get_export_value(self, model, name):
+        """
+        Returns the value to be displayed in export.
+        """
+        return self._get_list_value(
+            None,
+            model,
+            name,
+            self.column_formatters_export,
+            self.column_type_formatters_export,
+        )
 
     # Views
     @expose('/')
@@ -549,7 +631,7 @@ class ModelView(BaseView):
         if export_type == 'csv':
             return self._export_csv(return_url)
         else:
-            return se.f._export_tablib(export_type, return_url)
+            return self._export_tablib(export_type, return_url)
 
     def _export_csv(self, return_url):
         "Export a CSV of records as a stream."
@@ -562,11 +644,11 @@ class ModelView(BaseView):
         writer = csv.writer(Echo())
 
         def generate():
-            titles = [csv_encode(c[1]) for c in self._export_columns]
+            titles = [c[1] for c in self._export_columns]
             yield writer.writerow(titles)
 
             for row in data:
-                vals = [csv_encode(self.get_export_value(row, c[0]))
+                vals = [self.get_export_value(row, c[0])
                         for c in self._export_columns]
                 yield writer.writerow(vals)
 
@@ -577,4 +659,79 @@ class ModelView(BaseView):
             stream_with_context(generate()),
             headers={'Content-Disposition': disposition},
             mimetype='text/csv'
+        )
+
+    def _export_tablib(self, export_type, return_url):
+        """
+        Exports a variety of formates using the tablib library.
+        """
+        if tablib is None:
+            flash('Tablib dependency not installed', 'error')
+            return redirect(return_url)
+
+        filename = self.get_export_filename(export_type)
+        disposition = 'attachment;filename={}'.format(secure_filename(filename))
+        mimetype, encoding = mimetypes.guess_type(filename)
+
+        if not mimetype:
+            mimetype = 'application/octet-stream'
+        if encoding:
+            mimetype = '{}; charset={}'.format(mimetype, encoding)
+
+        ds = tablib.Dataset(headers=[c[1] for c in self._export_columns])
+
+        count, data = self._export_data()
+
+        for row in data:
+            vals = [self.get_export_value(row, c[0]) for c in self._export_columns]
+            ds.append(vals)
+
+        try:
+            try:
+                response_data = ds.export(format=export_type)
+            except AttributeError:
+                response_data = getattr(ds, export_type)
+        except (AttributeError, tablib.UnsuportedFormat):
+            flash('Export type "{}" is not supported.'.format(export_type), 'error')
+            return redirect(return_url)
+
+        return Response(
+            response_data,
+            headers={'Content-Disposition': disposition},
+            mimetype=mimetype,
+        )
+
+    def _export_data(self):
+        for col, func in self.column_formatters_export.items():
+            # skip checkin columns not being exported
+            if col not in [col for col, _ in self._export_columns]:
+                continue
+
+            if func.__name__ == 'inner':
+                raise NotImplementedError(
+                    "Macros are not implemented in export. Exclude column in "
+                    "column_formatters_export, column_export_list, or "
+                    "column_export_exclude_list. Column: {}".format(col)
+                )
+
+        # Grab parameters from URL
+        view_args = self._get_list_extra_args()
+
+        # Map column index to column name
+        sort_column = self._get_column_by_idx(view_args.sort)
+        if sort_column is not None:
+            sort_column = sort_column[0]
+
+        # Get count and data
+        count, data = self.get_list(0, sort_column, view_args.sort_desc,
+                                    view_args.search, view_args.filters,
+                                    page_size=self.export_max_rows)
+
+        return count, data
+
+    def get_export_filename(self, export_type='csv'):
+        return "{}_{}.{}".format(
+            self.name,
+            time.strftime("%Y-%m-%d_%H-%M-%S"),
+            export_type
         )

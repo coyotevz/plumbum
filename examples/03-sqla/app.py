@@ -52,6 +52,11 @@ class Tag(db.Model):
         return self.name
 
 
+class UserView(ModelView):
+    can_export = True
+    export_types = ['csv', 'tsv', 'xls', 'xlsx', 'json', 'yaml']
+
+
 # Customize Post model view
 class PostView(ModelView):
     # Visible columns in the list view
@@ -74,7 +79,7 @@ class PostView(ModelView):
 
 pb = Plumbum(app, name='Example: SQLAlchemy', url='/')
 
-pb.add_view(ModelView(User, db.session))
+pb.add_view(UserView(User, db.session))
 pb.add_view(ModelView(Tag, db.session))
 pb.add_view(PostView(db.session))
 
