@@ -279,6 +279,8 @@ class Plumbum(object):
 
     def init_app(self, app, index_view=None, endpoint=None, url=None):
         self.app = app
+        self.app.config.setdefault('PLUMBUM_DEBUG_TEMPLATE', False)
+
         self._init_app()
 
         # Register index view

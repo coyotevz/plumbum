@@ -97,7 +97,7 @@
     {% block tail %}{% endblock %}
 
     {% block debug %}
-    {% if config.DEBUG %}
+    {% if config.PLUMBUM_DEBUG_TEMPLATE %}
       <div class="container">
 <pre>
 {%- for key, value in context().items() %}
