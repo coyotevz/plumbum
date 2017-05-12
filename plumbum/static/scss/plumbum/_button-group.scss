@@ -32,6 +32,7 @@
     &:active,
     &:hover {
       border-right-width: 1px;
+      z-index: 2;
 
       + .btn {
         border-left-width: 0;
