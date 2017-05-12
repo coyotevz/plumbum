@@ -1,0 +1,9 @@
+// Some alert alias
+
+.alert-message {
+  @extend .alert-info;
+}
+
+.alert-error {
+  @extend .alert-danger;
+}

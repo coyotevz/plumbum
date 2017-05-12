@@ -1,0 +1,12 @@
+{% macro messages() %}
+  {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+      {% for category, m in messages %}
+        <div class="alert{% if category %} alert-{{ category }}{% endif %} alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{ m }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+{% endmacro %}

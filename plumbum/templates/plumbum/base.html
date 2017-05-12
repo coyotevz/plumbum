@@ -1,4 +1,5 @@
 {% import "plumbum/_menu.html" as menu with context %}
+{% import "plumbum/_helpers.html" as helpers with context %}
 
 <!doctype html>
 <html lang="es-ar">
@@ -76,8 +77,10 @@
           </div>
         </div>
         <div class="content-wrapper page-with-layout-nav page-with-sub-nav mt-3">
-          <div class="alert-wrapper">
-            <div class="flash-container flash-container-page"></div>
+          <div class="container-fluid container-limited">
+            {% block messages %}
+              {{ helpers.messages() }}
+            {% endblock %}
           </div>
           <div id="content-body" class="content">
             <div class="container-fluid container-limited">
@@ -97,8 +100,8 @@
     {% block tail %}{% endblock %}
 
     {% block debug %}
-    {% if config.PLUMBUM_DEBUG_TEMPLATE %}
-      <div class="container">
+      {% if config.PLUMBUM_DEBUG_TEMPLATE %}
+        <div class="container">
 <pre>
 {%- for key, value in context().items() %}
 {%- if not callable(value) %}
@@ -106,8 +109,8 @@
 {%- endif %}
 {%- endfor %}
 </pre>
-    </div>
-  {% endif %}
+      </div>
+    {% endif %}
   {% endblock %}
 </body>
 </html>
