@@ -6,6 +6,9 @@
     {% if view.can_create %}
       <a class="btn btn-sm" href="{{ view.get_url('.create_view', url=return_url) }}" title="Create New Record">Create</a>
     {% endif %}
+    {% if view.can_export %}
+      <a class="btn btn-sm" href="{{ view.get_url('.export', export_type="csv", url=return_url) }}" title="Export records">Export</a>
+    {% endif %}
   </div>
   <div class="list-holder">
     <div class="list-content-holder">
@@ -36,9 +39,9 @@
     <div class="blankstate">
       <h3>You haven't created any {{ view.name|lower }} yet.</h3>
       <p>{{ view.empty_list_message }}</p>
-      <p>
-        <a href="{{ view.get_url('.create_view') }}" class="btn btn-primary">Create a {{ view.name }}</a>
-      </p>
+      {% if view.can_create %}
+        <p><a href="{{ view.get_url('.create_view') }}" class="btn btn-primary">Create a {{ view.name }}</a></p>
+      {% endif %}
     </div>
   {% endif %}
 {% endblock %}
