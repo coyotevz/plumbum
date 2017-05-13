@@ -18,6 +18,7 @@ except ImportError:
     tablib = None
 
 from ..base import BaseView, expose, prettify_class_name
+from ..babel import gettext
 from ..form import BaseForm, build_form
 from . import tools
 from . import typefmt
@@ -412,7 +413,7 @@ class ModelView(BaseView):
 
     def handle_view_exception(self, exc):
         if isinstance(exc, IntegrityError):
-            flash('Inegrity error. {}'.format(exc), 'error')
+            flash(gettext('Inegrity error. {message}', message=exc), 'error')
             return True
 
         if isinstance(exc, ValidationError):
@@ -436,7 +437,7 @@ class ModelView(BaseView):
             self.session.commit()
         except Exception as ex:
             if not self.handle_view_exception(ex):
-                flash('Failed to create record. {error}'.format(error=ex), 'error')
+                flash(gettext('Failed to create record. {error}', error=ex), 'error')
                 log.exception('Failed to created record.')
 
             self.session.rollback()
@@ -455,7 +456,7 @@ class ModelView(BaseView):
     # Various helpers
     @property
     def empty_list_message(self):
-        return 'There are no items in the table.'
+        return gettext('There are no items in the table.')
 
 
     # URL generation helpers
@@ -595,7 +596,7 @@ class ModelView(BaseView):
             model = self.create_model(form)
             print('model:', model)
             if model:
-                flash('Record was successfully created.', 'success')
+                flash(gettext('Record was successfully created.'), 'success')
                 if '_add_another' in request.form:
                     return redirect(request.url)
                 elif '_continue_editing' in request.form:
@@ -625,7 +626,7 @@ class ModelView(BaseView):
         return_url = get_redirect_target() or self.get_url('.index_view')
 
         if not self.can_export or (export_type not in self.export_types):
-            flash('Permission denied.', 'error')
+            flash(gettext('Permission denied.'), 'error')
             return redirect(return_url)
 
         if export_type == 'csv':
@@ -666,7 +667,7 @@ class ModelView(BaseView):
         Exports a variety of formates using the tablib library.
         """
         if tablib is None:
-            flash('Tablib dependency not installed', 'error')
+            flash(gettext('Tablib dependency not installed'), 'error')
             return redirect(return_url)
 
         filename = self.get_export_filename(export_type)
@@ -692,7 +693,7 @@ class ModelView(BaseView):
             except AttributeError:
                 response_data = getattr(ds, export_type)
         except (AttributeError, tablib.UnsuportedFormat):
-            flash('Export type "{}" is not supported.'.format(export_type), 'error')
+            flash(gettext('Export type "{type}" is not supported.', type=export_type), 'error')
             return redirect(return_url)
 
         return Response(

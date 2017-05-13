@@ -10,6 +10,7 @@ from flask_webpack import Webpack
 
 from .menu import MenuView
 from . import tools
+from . import babel
 
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -180,8 +181,18 @@ class BaseView(metaclass=PlumbumViewMeta):
         kwargs['pformat'] = pformat
         # End debug purpose, delete pelase
 
+        # Sotre self as view
         kwargs['view'] = self
         kwargs['plumbum_base_template'] = self.plumbum.base_template
+
+        # Provide i18n support even if flask-babelex is not installed.
+        kwargs['_gettext'] = babel.gettext
+        kwargs['_ngettext'] = babel.ngettext
+
+        # Expose get_url helper
+        kwargs['get_url'] = self.get_url
+
+        # Contribute extra arguments
         kwargs.update(self._template_args)
 
         return render_template(template, **kwargs)
@@ -211,7 +222,7 @@ class PlumbumIndexView(BaseView):
     def __init__(self, name=None, endpoint=None, url=None,
                  template='plumbum/index.html', menu_class_name=None,
                  menu_icon_type=None, menu_icon_value=None):
-        super(PlumbumIndexView, self).__init__(name or 'Home',
+        super(PlumbumIndexView, self).__init__(name or babel.lazy_gettext('Home'),
                                                endpoint or 'plumbum',
                                                '/plumbum' if url is None else
                                                url, 'static',
