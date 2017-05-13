@@ -414,7 +414,7 @@ class ModelView(BaseView):
 
     def handle_view_exception(self, exc):
         if isinstance(exc, IntegrityError):
-            flash(gettext('Inegrity error. %(message)s', message=exc), 'error')
+            flash(gettext('Integrity error. %(message)s', message=exc), 'error')
             return True
 
         if isinstance(exc, ValidationError):

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plumbum 0.1.dev1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-13 03:00-0300\n"
+"POT-Creation-Date: 2017-05-13 03:02-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: plumbum/model/view.py:417
 #, python-format
-msgid "Inegrity error. %(message)s"
+msgid "Integrity error. %(message)s"
 msgstr ""
 
 #: plumbum/model/view.py:441
