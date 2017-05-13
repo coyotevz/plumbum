@@ -1,6 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
+try:
+    from babel.messages import frontend as babel
+    cmdclass = {
+        'compile_catalog': babel.compile_catalog,
+        'extract_messages': babel.extract_messages,
+        'init_catalog': babel.init_catalog,
+        'update_catalog': babel.update_catalog,
+    }
+
+except ImportError:
+    cmdclass = {}
 
 setup(
     name = 'Plumbum',
@@ -10,6 +21,7 @@ setup(
     description = 'Simple and extensible application framework to work with Flask',
     platforms = 'any',
     license = 'BSD', # ?? this is correct
+    cmdclass = cmdclass,
 
     packages = find_packages(exclude=['tests']),
     include_package_data = True,
@@ -17,6 +29,7 @@ setup(
     install_requires = [
         'Flask',
         'Flask-SQLAlchemy',
+        'Flask-BabelEx',
         'flask-wtf',
         'wtforms-alchemy',
     ],

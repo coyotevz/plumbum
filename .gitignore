@@ -12,7 +12,6 @@ eggs/
 pip-log.txt
 
 *.mo
-*.pot
 
 instance/
 .webassets-cache
