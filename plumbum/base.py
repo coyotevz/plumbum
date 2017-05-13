@@ -2,7 +2,6 @@
 
 import os.path
 from functools import wraps
-from re import sub
 
 from flask import Blueprint, render_template, abort, g, url_for
 from jinja2 import contextfunction
@@ -15,15 +14,6 @@ from . import babel
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
 
-
-def set_current_view(view):
-    g._plumbum_view = view
-
-def get_current_view():
-    return getattr(g, '_plumbum_view', None)
-
-def prettify_class_name(name):
-    return sub(r'(?<=.)([A-Z])', r' \1', name)
 
 def expose(url='/', methods=('GET',)):
     """
@@ -42,7 +32,7 @@ def _wrap_view(f):
 
     @wraps(f)
     def inner(self, *args, **kwargs):
-        set_current_view(self)
+        tools.set_current_view(self)
 
         abort = self._handle_view(f.__name__, **kwargs)
         if abort is not None:
@@ -149,7 +139,7 @@ class BaseView(metaclass=PlumbumViewMeta):
                 self.static_url_path = '/static/plumbum'
 
         if self.name is None:
-            self.name = prettify_class_name(self.__class__.__name__)
+            self.name = tools.prettify_class_name(self.__class__.__name__)
 
         self.blueprint = Blueprint(self.endpoint, __name__,
                                    url_prefix=self.url,
@@ -241,9 +231,10 @@ class Plumbum(object):
     Collection of the plumbum views.
     """
     def __init__(self, app=None, name=None, url=None, subdomain=None,
-                 index_view=None, endpoint=None, static_url_path=None,
-                 base_template=None):
+                 index_view=None, translations_path=None, endpoint=None,
+                 static_url_path=None, base_template=None):
         self.app = app
+        self.translations_path = translations_path
         self._views = []
         self._menu = []
         self._menu_links = []

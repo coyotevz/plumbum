@@ -21,6 +21,7 @@ except ImportError:
 
 else:
     from . import translations
+    from . import tools
     from wtforms.i18n import messages_path
 
     class CustomDomain(Domain):
@@ -28,7 +29,7 @@ else:
             super(CustomDomain, self).__init__(translations.__path__[0], domain='plumbum')
 
         def get_translations_path(self, ctx):
-            view = get_current_view()
+            view = tools.get_current_view()
 
             if view is not None:
                 dirname = view.plumbum.translations_path

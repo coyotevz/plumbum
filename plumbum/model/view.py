@@ -17,9 +17,10 @@ try:
 except ImportError:
     tablib = None
 
-from ..base import BaseView, expose, prettify_class_name
+from ..base import BaseView, expose
 from ..babel import gettext
 from ..form import BaseForm, build_form
+from ..tools import prettify_class_name
 from . import tools
 from . import typefmt
 
