@@ -4,101 +4,105 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-sm-10">
-        <h1>Plumbum example</h1>
+        <h1>{{ _('Plumbum example') }}</h1>
         <p class="lead">Basic SQLAlchemy model views.</p>
-        <p>This example shows how to add basic CRUD-views for your SQLAlchemy
-          models.</p>
-        <p>This views are generated automatically, but it is perfectly possible
-          to cusomize them to suit your needs.</p>
+        <p>{% trans %}
+            This example shows how to add basic CRUD-views for your
+            SQLAlchemy models.
+        {% endtrans %}</p>
+        <p>{% trans %}
+            This views are generated automatically, but it is perfectly
+            possible to cusomize them to suit your needs.
+        {% endtrans %}</p>
         <a class="btn btn-outline btn-sm" role="button" href="/">
-          <i class="fa fa-arrow-left fa-fw"></i> Back
+            <i class="fa fa-arrow-left fa-fw"></i> {{ _ ('Back') }}
         </a>
       </div>
     </div>
     <div class="docs-example clearfix">
-      <button class="m-1 btn" type="button">Close</button>
-      <button class="m-1 btn btn-primary" type="button">Comment</button>
-      <button class="m-1 btn btn-danger" type="button">Rename repository</button>
-      <button class="m-1 btn btn-blue" type="button">Sign up for free</button>
-      <button class="m-1 btn btn-purple" type="button">Try it for free</button>
-      <button class="m-1 btn btn-outline" type="button">Outline</button>
+      <button class="m-1 btn" type="button">{{ _('Close') }}</button>
+      <button class="m-1 btn btn-primary" type="button">{{ _('Comment') }}</button>
+      <button class="m-1 btn btn-danger" type="button">{{ _('Rename repository') }}</button>
+      <button class="m-1 btn btn-blue" type="button">{{ _('Sign up for free') }}</button>
+      <button class="m-1 btn btn-purple" type="button">{{ _('Try it for free') }}</button>
+      <button class="m-1 btn btn-outline" type="button">{{ _('Outline') }}</button>
     </div>
     <div class="docs-example clearfix">
-      <button class="m-1 btn hover" type="button">Close</button>
-      <button class="m-1 btn btn-primary hover" type="button">Comment</button>
-      <button class="m-1 btn btn-danger hover" type="button">Rename repository</button>
-      <button class="m-1 btn btn-blue hover" type="button">Sign up for free</button>
-      <button class="m-1 btn btn-purple hover" type="button">Try it for free</button>
-      <button class="m-1 btn btn-outline hover" type="button">Outline</button>
+      <button class="m-1 btn hover" type="button">{{ _('Close') }}</button>
+      <button class="m-1 btn btn-primary hover" type="button">{{ _('Comment') }}</button>
+      <button class="m-1 btn btn-danger hover" type="button">{{ _('Rename repository') }}</button>
+      <button class="m-1 btn btn-blue hover" type="button">{{ _('Sign up for free') }}</button>
+      <button class="m-1 btn btn-purple hover" type="button">{{ _('Try it for free') }}</button>
+      <button class="m-1 btn btn-outline hover" type="button">{{ _('Outline') }}</button>
     </div>
     <div class="docs-example clearfix">
-      <button class="m-1 btn focus" type="button">Close</button>
-      <button class="m-1 btn btn-primary focus" type="button">Comment</button>
-      <button class="m-1 btn btn-danger focus" type="button">Rename repository</button>
-      <button class="m-1 btn btn-blue focus" type="button">Sign up for free</button>
-      <button class="m-1 btn btn-purple focus" type="button">Try it for free</button>
-      <button class="m-1 btn btn-outline focus" type="button">Outline</button>
+      <button class="m-1 btn focus" type="button">{{ _('Close') }}</button>
+      <button class="m-1 btn btn-primary focus" type="button">{{ _('Comment') }}</button>
+      <button class="m-1 btn btn-danger focus" type="button">{{ _('Rename repository') }}</button>
+      <button class="m-1 btn btn-blue focus" type="button">{{ _('Sign up for free') }}</button>
+      <button class="m-1 btn btn-purple focus" type="button">{{ _('Try it for free') }}</button>
+      <button class="m-1 btn btn-outline focus" type="button">{{ _('Outline') }}</button>
     </div>
     <div class="docs-example clearfix">
-      <button class="m-1 btn selected" type="button">Close</button>
-      <button class="m-1 btn btn-primary selected" type="button">Comment</button>
-      <button class="m-1 btn btn-danger selected" type="button">Rename repository</button>
-      <button class="m-1 btn btn-blue selected" type="button">Sign up for free</button>
-      <button class="m-1 btn btn-purple selected" type="button">Try it for free</button>
-      <button class="m-1 btn btn-outline selected" type="button">Outline</button>
+      <button class="m-1 btn selected" type="button">{{ _('Close') }}</button>
+      <button class="m-1 btn btn-primary selected" type="button">{{ _('Comment') }}</button>
+      <button class="m-1 btn btn-danger selected" type="button">{{ _('Rename repository') }}</button>
+      <button class="m-1 btn btn-blue selected" type="button">{{ _('Sign up for free') }}</button>
+      <button class="m-1 btn btn-purple selected" type="button">{{ _('Try it for free') }}</button>
+      <button class="m-1 btn btn-outline selected" type="button">{{ _('Outline') }}</button>
     </div>
     <div class="docs-example clearfix">
-      <button class="m-1 btn disabled" type="button">Close</button>
-      <button class="m-1 btn btn-primary disabled" type="button">Comment</button>
-      <button class="m-1 btn btn-danger disabled" type="button">Rename repository</button>
-      <button class="m-1 btn btn-blue disabled" type="button">Sign up for free</button>
-      <button class="m-1 btn btn-purple disabled" type="button">Try it for free</button>
-      <button class="m-1 btn btn-outline disabled" type="button">Outline</button>
+      <button class="m-1 btn disabled" type="button">{{ _('Close') }}</button>
+      <button class="m-1 btn btn-primary disabled" type="button">{{ _('Comment') }}</button>
+      <button class="m-1 btn btn-danger disabled" type="button">{{ _('Rename repository') }}</button>
+      <button class="m-1 btn btn-blue disabled" type="button">{{ _('Sign up for free') }}</button>
+      <button class="m-1 btn btn-purple disabled" type="button">{{ _('Try it for free') }}</button>
+      <button class="m-1 btn btn-outline disabled" type="button">{{ _('Outline') }}</button>
     </div>
     <div class="docs-example clearfix">
-      <button class="m-1 btn" type="button">Button</button>
-      <button class="m-1 btn btn-sm" type="button">Small button</button>
-      <button class="m-1 btn" type="button" disabled>Disabled button</button>
+      <button class="m-1 btn" type="button">{{ _('Button') }}</button>
+      <button class="m-1 btn btn-sm" type="button">{{ _('Small button') }}</button>
+      <button class="m-1 btn" type="button" disabled>{{ _('Disabled button') }}</button>
     </div>
     <div class="docs-example clearfix">
-      <button class="m-1 btn btn-primary" type="button">Primary Button</button>
+      <button class="m-1 btn btn-primary" type="button">{{ _('Primary Button') }}</button>
       <button class="m-1 btn btn-sm btn-primary" type="button">Small primary button</button>
       <button class="m-1 btn btn-primary" type="button" disabled>Primary disabled</button>
     </div>
     <div class="docs-example clearfix">
-      <button class="m-1 btn btn-danger" type="button">Danger Button</button>
-      <button class="m-1 btn btn-sm btn-danger" type="button">Small danger button</button>
-      <button class="m-1 btn btn-danger" type="button" disabled>Danger disabled</button>
+      <button class="m-1 btn btn-danger" type="button">{{ _('Danger Button') }}</button>
+      <button class="m-1 btn btn-sm btn-danger" type="button">{{ _('Small danger button') }}</button>
+      <button class="m-1 btn btn-danger" type="button" disabled>{{ _('Danger disabled') }}</button>
     </div>
     <div class="docs-example clearfix">
       <button class="m-1 btn" type="button">
-        Button <span class="counter">12</span>
+        {{ _('Button') }} <span class="counter">12</span>
       </button>
       <button class="m-1 btn btn-primary" type="button">
-        Button <span class="counter">12</span>
+        {{ _('Button') }} <span class="counter">12</span>
       </button>
       <button class="m-1 btn btn-danger" type="button">
-        Button <span class="counter">12</span>
+        {{ _('Button') }} <span class="counter">12</span>
       </button>
       <button class="m-1 btn btn-outline" type="button">
-        Button <span class="counter">12</span>
+        {{ _('Button') }} <span class="counter">12</span>
       </button>
     </div>
     <div class="docs-example clearfix">
       <div class="btn-group">
-        <button class="btn" type="button">Button</button>
-        <button class="btn" type="button">Button</button>
-        <button class="btn" type="button">Button</button>
+        <button class="btn" type="button">{{ _('Button') }}</button>
+        <button class="btn" type="button">{{ _('Button') }}</button>
+        <button class="btn" type="button">{{ _('Button') }}</button>
       </div>
       <div class="btn-group">
-        <button class="btn btn-outline" type="button">Button</button>
-        <button class="btn btn-outline" type="button">Button</button>
-        <button class="btn btn-outline" type="button">Button</button>
+        <button class="btn btn-outline" type="button">{{ _('Button') }}</button>
+        <button class="btn btn-outline" type="button">{{ _('Button') }}</button>
+        <button class="btn btn-outline" type="button">{{ _('Button') }}</button>
       </div>
       <div class="btn-group">
-        <button class="btn btn-sm" type="button">Button</button>
-        <button class="btn btn-sm" type="button">Button</button>
-        <button class="btn btn-sm" type="button">Button</button>
+        <button class="btn btn-sm" type="button">{{ _('Button') }}</button>
+        <button class="btn btn-sm" type="button">{{ _('Button') }}</button>
+        <button class="btn btn-sm" type="button">{{ _('Button') }}</button>
       </div>
     </div>
   </div>

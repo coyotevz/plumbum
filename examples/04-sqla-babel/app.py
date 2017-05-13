@@ -2,7 +2,7 @@
 
 from flask import Flask, request, session
 from flask_sqlalchemy import SQLAlchemy
-from flask_babelex import Babel
+from flask_babelex import Babel, Domain
 
 from wtforms import validators
 
@@ -20,6 +20,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PLUMBUM_DEBUG_TEMPLATE'] = True
 
 db = SQLAlchemy(app)
+
+domain = Domain(domain='sqla-babel', dirname='locales')
+
+_ = domain.lazy_gettext
 
 
 @babel.localeselector
@@ -75,12 +79,12 @@ class PostView(ModelView):
     # Visible columns in the list view
     column_exclude_list = ['text']
     column_labels = {
-        'title': 'Post Title',
+        'title': _('Post Title'),
     }
 
     field_args = {
         'text': {
-            'label': 'Big Text',
+            'label': _('Big Text'),
             'validators': [validators.Required()],
         }
     }
@@ -90,7 +94,7 @@ class PostView(ModelView):
         super(PostView, self).__init__(Post, session)
 
 
-pb = Plumbum(app, name='Example: SQLAlchemy', url='/')
+pb = Plumbum(app, name=_('Example: SQLAlchemy + Babel'), url='/')
 
 pb.add_view(UserView(User, db.session))
 pb.add_view(ModelView(Tag, db.session))
