@@ -1,0 +1,85 @@
+# Spanish (Argentina) translations for Plumbum.
+# Copyright (C) 2017 Augusto Roccasalva
+# This file is distributed under the same license as the Plumbum project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Plumbum 0.1.dev1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2017-05-13 03:02-0300\n"
+"PO-Revision-Date: 2017-05-13 04:08-0300\n"
+"Language: es_AR\n"
+"Language-Team: es_AR <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+"Last-Translator: \n"
+"X-Generator: Poedit 2.0.1\n"
+
+#: plumbum/model/view.py:417
+#, python-format
+msgid "Integrity error. %(message)s"
+msgstr "Error de Integridad. %(message)s"
+
+#: plumbum/model/view.py:441
+#, python-format
+msgid "Failed to create record. %(error)s"
+msgstr "Fallo la creación del registro. %(error)s"
+
+#: plumbum/model/view.py:460
+msgid "There are no items in the table."
+msgstr "No hay items en la tabla."
+
+#: plumbum/model/view.py:600
+msgid "Record was successfully created."
+msgstr "El registro se creó exitosamente."
+
+#: plumbum/model/view.py:630
+msgid "Permission denied."
+msgstr "Permiso denegado."
+
+#: plumbum/model/view.py:671
+msgid "Tablib dependency not installed"
+msgstr "Dependencia Tablib no instalada."
+
+#: plumbum/model/view.py:697
+#, python-format
+msgid "Export type \"%(type)s\" is not supported."
+msgstr "El tipo de exportación \"%(type)s\" no esta soportado."
+
+#: plumbum/templates/plumbum/_form.html:36
+msgid "Save"
+msgstr "Guardar"
+
+#: plumbum/templates/plumbum/_form.html:41
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: plumbum/templates/plumbum/model/list.html:7
+msgid "Create New Record"
+msgstr "Crear Nuevo Registro"
+
+#: plumbum/templates/plumbum/model/list.html:7
+msgid "Create"
+msgstr "Crear"
+
+#: plumbum/templates/plumbum/model/list.html:10
+msgid "Export records"
+msgstr "Exportar registros"
+
+#: plumbum/templates/plumbum/model/list.html:10
+msgid "Export"
+msgstr "Exportar"
+
+#: plumbum/templates/plumbum/model/list.html:40
+#, python-format
+msgid "You haven't created any %(name)s yet."
+msgstr "No has creado ningún %(name)s todavia."
+
+#: plumbum/templates/plumbum/model/list.html:43
+#, python-format
+msgid "Create a %(name)s"
+msgstr "Crear un %(name)s"
