@@ -176,8 +176,9 @@ class BaseView(metaclass=PlumbumViewMeta):
         kwargs['plumbum_base_template'] = self.plumbum.base_template
 
         # Provide i18n support even if flask-babelex is not installed.
-        kwargs['_gettext'] = babel.gettext
-        kwargs['_ngettext'] = babel.ngettext
+        kwargs['gettext'] = babel.gettext
+        kwargs['_'] = babel.gettext
+        kwargs['ngettext'] = babel.ngettext
 
         # Expose get_url helper
         kwargs['get_url'] = self.get_url
