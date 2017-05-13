@@ -1,0 +1,84 @@
+# Translations template for Plumbum.
+# Copyright (C) 2017 Augusto Roccasalva
+# This file is distributed under the same license as the Plumbum project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Plumbum 0.1.dev1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2017-05-13 03:00-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.4.0\n"
+
+#: plumbum/model/view.py:417
+#, python-format
+msgid "Inegrity error. %(message)s"
+msgstr ""
+
+#: plumbum/model/view.py:441
+#, python-format
+msgid "Failed to create record. %(error)s"
+msgstr ""
+
+#: plumbum/model/view.py:460
+msgid "There are no items in the table."
+msgstr ""
+
+#: plumbum/model/view.py:600
+msgid "Record was successfully created."
+msgstr ""
+
+#: plumbum/model/view.py:630
+msgid "Permission denied."
+msgstr ""
+
+#: plumbum/model/view.py:671
+msgid "Tablib dependency not installed"
+msgstr ""
+
+#: plumbum/model/view.py:697
+#, python-format
+msgid "Export type \"%(type)s\" is not supported."
+msgstr ""
+
+#: plumbum/templates/plumbum/_form.html:36
+msgid "Save"
+msgstr ""
+
+#: plumbum/templates/plumbum/_form.html:41
+msgid "Cancel"
+msgstr ""
+
+#: plumbum/templates/plumbum/model/list.html:7
+msgid "Create New Record"
+msgstr ""
+
+#: plumbum/templates/plumbum/model/list.html:7
+msgid "Create"
+msgstr ""
+
+#: plumbum/templates/plumbum/model/list.html:10
+msgid "Export records"
+msgstr ""
+
+#: plumbum/templates/plumbum/model/list.html:10
+msgid "Export"
+msgstr ""
+
+#: plumbum/templates/plumbum/model/list.html:40
+#, python-format
+msgid "You haven't created any %(name)s yet."
+msgstr ""
+
+#: plumbum/templates/plumbum/model/list.html:43
+#, python-format
+msgid "Create a %(name)s"
+msgstr ""
+
