@@ -414,7 +414,7 @@ class ModelView(BaseView):
 
     def handle_view_exception(self, exc):
         if isinstance(exc, IntegrityError):
-            flash(gettext('Inegrity error. {message}', message=exc), 'error')
+            flash(gettext('Inegrity error. %(message)s', message=exc), 'error')
             return True
 
         if isinstance(exc, ValidationError):
@@ -438,7 +438,7 @@ class ModelView(BaseView):
             self.session.commit()
         except Exception as ex:
             if not self.handle_view_exception(ex):
-                flash(gettext('Failed to create record. {error}', error=ex), 'error')
+                flash(gettext('Failed to create record. %(error)s', error=ex), 'error')
                 log.exception('Failed to created record.')
 
             self.session.rollback()
@@ -694,7 +694,7 @@ class ModelView(BaseView):
             except AttributeError:
                 response_data = getattr(ds, export_type)
         except (AttributeError, tablib.UnsuportedFormat):
-            flash(gettext('Export type "{type}" is not supported.', type=export_type), 'error')
+            flash(gettext('Export type "%(type)s" is not supported.', type=export_type), 'error')
             return redirect(return_url)
 
         return Response(
