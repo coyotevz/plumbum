@@ -4,10 +4,10 @@
   {% if data %}
   <div class="list-controls">
     {% if view.can_create %}
-      <a class="btn btn-sm" href="{{ view.get_url('.create_view', url=return_url) }}" title="Create New Record">Create</a>
+      <a class="btn btn-sm" href="{{ view.get_url('.create_view', url=return_url) }}" title="{{ _('Create New Record') }}">{{ _('Create') }}</a>
     {% endif %}
     {% if view.can_export %}
-      <a class="btn btn-sm" href="{{ view.get_url('.export', export_type="csv", url=return_url) }}" title="Export records">Export</a>
+      <a class="btn btn-sm" href="{{ view.get_url('.export', export_type="csv", url=return_url) }}" title="{{ _('Export records') }}">{{ _('Export') }}</a>
     {% endif %}
   </div>
   <div class="list-holder">
@@ -37,10 +37,10 @@
   </div>
   {% else %}
     <div class="blankstate">
-      <h3>You haven't created any {{ view.name|lower }} yet.</h3>
+      <h3>{{ _('You haven\'t created any %(name)s yet.', name=view.name|lower) }}</h3>
       <p>{{ view.empty_list_message }}</p>
       {% if view.can_create %}
-        <p><a href="{{ view.get_url('.create_view') }}" class="btn btn-primary">Create a {{ view.name }}</a></p>
+        <p><a href="{{ view.get_url('.create_view') }}" class="btn btn-primary">{{ _('Create a %(name)s', name=view.name) }}</a></p>
       {% endif %}
     </div>
   {% endif %}
