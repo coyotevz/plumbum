@@ -14,19 +14,19 @@ except ImportError:
     cmdclass = {}
 
 setup(
-    name = 'Plumbum',
-    version = '0.1.dev1',
-    author = 'Augusto Roccasalva',
-    author_email = 'augustoroccasalva@gmail.com',
-    description = 'Simple and extensible application framework to work with Flask',
-    platforms = 'any',
-    license = 'BSD', # ?? this is correct
-    cmdclass = cmdclass,
+    name='Plumbum',
+    version='0.1.dev1',
+    author='Augusto Roccasalva',
+    author_email='augustoroccasalva@gmail.com',
+    description='Simple and extensible application framework for Flask',
+    platforms='any',
+    license='BSD',  # ?? this is correct
+    cmdclass=cmdclass,
 
-    packages = find_packages(exclude=['tests']),
-    include_package_data = True,
-    zip_safe = False,
-    install_requires = [
+    packages=find_packages(exclude=['tests']),
+    include_package_data=True,
+    zip_safe=False,
+    install_requires=[
         'Flask',
         'Flask-SQLAlchemy',
         'Flask-BabelEx',

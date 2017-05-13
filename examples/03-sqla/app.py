@@ -14,11 +14,11 @@ app.config['SECRET_KEY'] = '1234'
 
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sample_data.db'
-#app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PLUMBUM_DEBUG_TEMPLATE'] = True
 
 db = SQLAlchemy(app)
+
 
 # Create models
 class User(db.Model):

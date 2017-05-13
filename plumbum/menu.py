@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from flask import url_for
-
 
 class BaseMenu(object):
     "Base menu item"
@@ -45,7 +43,8 @@ class BaseMenu(object):
         return True
 
     def get_children(self):
-        return [c for c in self._children if c.is_accessible() and c.is_visible()]
+        return [c for c in self._children
+                if c.is_accessible() and c.is_visible()]
 
 
 class MenuView(BaseMenu):
@@ -69,7 +68,8 @@ class MenuView(BaseMenu):
         if self._cached_url:
             return self._cached_url
 
-        url = self._view.get_url('{}.{}'.format(self._view.endpoint, self._view._default_view))
+        url = self._view.get_url('{}.{}'.format(self._view.endpoint,
+                                                self._view._default_view))
 
         if self._cache:
             self._cached_url = url

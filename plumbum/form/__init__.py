@@ -10,7 +10,8 @@ BaseForm = model_form_factory(base=FlaskForm)
 
 def _recreate_field(unbound):
     """
-    Create a new instance of the unbound field, resettings wtforms creation counter.
+    Create a new instance of the unbound field, resettings wtforms creation
+    counter.
     """
     if not isinstance(unbound, UnboundField):
         raise ValueError('recreate_field expect UnboundField instance, {} was '

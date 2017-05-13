@@ -8,8 +8,8 @@ from jinja2 import contextfunction
 from flask_webpack import Webpack
 
 from .menu import MenuView
+from .babel import gettext, ngettext, lazy_gettext
 from . import tools
-from . import babel
 
 
 CURRENT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -25,6 +25,7 @@ def expose(url='/', methods=('GET',)):
         f._urls.append((url, methods))
         return f
     return wrap
+
 
 def _wrap_view(f):
     if hasattr(f, '_wrapped'):
@@ -66,6 +67,7 @@ class PlumbumViewMeta(type):
                 # Wrap views
                 setattr(cls, p, _wrap_view(attr))
 
+
 class BaseView(metaclass=PlumbumViewMeta):
     """
     Base administrative view.
@@ -98,7 +100,9 @@ class BaseView(metaclass=PlumbumViewMeta):
         self.blueprint = None
 
         if self._default_view is None:
-            raise Exception("no default view for {}".format(self.__class__.__name__))
+            raise Exception(
+                "no default view for {}".format(self.__class__.__name__)
+            )
 
     def _get_endpoint(self, endpoint):
         if endpoint:
@@ -176,9 +180,9 @@ class BaseView(metaclass=PlumbumViewMeta):
         kwargs['plumbum_base_template'] = self.plumbum.base_template
 
         # Provide i18n support even if flask-babelex is not installed.
-        kwargs['gettext'] = babel.gettext
-        kwargs['_'] = babel.gettext
-        kwargs['ngettext'] = babel.ngettext
+        kwargs['gettext'] = gettext
+        kwargs['_'] = gettext
+        kwargs['ngettext'] = ngettext
 
         # Expose get_url helper
         kwargs['get_url'] = self.get_url
@@ -213,7 +217,7 @@ class PlumbumIndexView(BaseView):
     def __init__(self, name=None, endpoint=None, url=None,
                  template='plumbum/index.html', menu_class_name=None,
                  menu_icon_type=None, menu_icon_value=None):
-        super(PlumbumIndexView, self).__init__(name or babel.lazy_gettext('Home'),
+        super(PlumbumIndexView, self).__init__(name or lazy_gettext('Home'),
                                                endpoint or 'plumbum',
                                                '/plumbum' if url is None else
                                                url, 'static',
@@ -257,7 +261,8 @@ class Plumbum(object):
             self._init_app()
 
     def _set_index_view(self, index_view=None, endpoint=None, url=None):
-        self.index_view = index_view or PlumbumIndexView(endpoint=endpoint, url=url)
+        self.index_view = index_view or PlumbumIndexView(endpoint=endpoint,
+                                                         url=url)
         self.endpoint = self.index_view.endpoint
         self.url = self.index_view.url
 
@@ -304,17 +309,11 @@ class Plumbum(object):
         for p in plumbums:
             if p.endpoint == self.endpoint:
                 raise Exception('Cannot have two Plumbum() instance with same '
-                                ' endpoint name.')
+                                'endpoint name.')
             if p.url == self.url and p.subdomain == self.subdomain:
-                raise Exception('Cannot assign two Plumbum() instances with same '
-                                'URL and subdomain to the same application.')
-        else:
-            # This is the first instance, so if in debug, run scss compiler
-            print('This is the first instance', self.app.debug, tools.is_running_main(), __file__)
-            if self.app.debug and not tools.is_running_main():
-                infile = '{}/static/scss/plumbum.scss'.format(CURRENT_PATH)
-                outfile = '{}/static/css/plumbum.css'.format(CURRENT_PATH)
-                #tools.run_scss(infile, outfile)
+                raise Exception('Cannot assign two Plumbum() instances with '
+                                'same URL and subdomain to the same '
+                                'application.')
 
         plumbums.append(self)
         self.app.extensions['plumbum'] = plumbums
@@ -322,7 +321,9 @@ class Plumbum(object):
         # Initialize Webpack plugin
         # FIXME: Hardcoded, move to appropiate place
         self.app.config.update({
-            'WEBPACK_MANIFEST_PATH': '{}/static/webpack/manifest.json'.format(CURRENT_PATH),
+            'WEBPACK_MANIFEST_PATH': '{}/static/webpack/manifest.json'.format(
+                CURRENT_PATH
+            ),
         })
         webpack = Webpack()
         webpack.init_app(self.app)
@@ -335,19 +336,21 @@ class Plumbum(object):
         def show_urls():
             column_headers = ('Rule', 'Endpoint', 'Methods')
             order = 'rule'
-            rows = [('-'*4, '-'*8, '-'*9)] # minimal values to take
+            rows = [('-'*4, '-'*8, '-'*9)]  # minimal values to take
             rules = sorted(self.app.url_map.iter_rules(),
-                        key=lambda rule: getattr(rule, order))
+                           key=lambda rule: getattr(rule, order))
             for rule in rules:
-                rows.append((rule.rule, rule.endpoint, ', '.join(rule.methods)))
+                rows.append(
+                    (rule.rule, rule.endpoint, ', '.join(rule.methods))
+                )
 
             rule_l = len(max(rows, key=lambda r: len(r[0]))[0])
             ep_l = len(max(rows, key=lambda r: len(r[1]))[1])
             meth_l = len(max(rows, key=lambda r: len(r[2]))[2])
 
             str_template = '%-' + str(rule_l) + 's' + \
-                        ' %-' + str(ep_l) + 's' + \
-                        ' %-' + str(meth_l) + 's'
+                           ' %-' + str(ep_l) + 's' + \
+                           ' %-' + str(meth_l) + 's'
             table_width = rule_l + 2 + ep_l + 2 + meth_l
 
             out = (str_template % column_headers) + '\n' + '-' * table_width
@@ -355,7 +358,6 @@ class Plumbum(object):
                 out += '\n' + str_template % row
 
             return out + '\n'
-
 
     def menu(self):
         "Return the menu hierarchy"

@@ -26,7 +26,8 @@ else:
 
     class CustomDomain(Domain):
         def __init__(self):
-            super(CustomDomain, self).__init__(translations.__path__[0], domain='plumbum')
+            super(CustomDomain, self).__init__(translations.__path__[0],
+                                               domain='plumbum')
 
         def get_translations_path(self, ctx):
             view = tools.get_current_view()

@@ -25,6 +25,7 @@ class AnotherPlumbumView(plumbum.BaseView):
 app = Flask(__name__, template_folder='templates')
 app.debug = True
 
+
 # Flask views
 @app.route('/')
 def index():

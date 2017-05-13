@@ -5,14 +5,18 @@ from re import sub
 
 from flask import g
 
+
 def set_current_view(view):
     g._plumbum_view = view
+
 
 def get_current_view():
     return getattr(g, '_plumbum_view', None)
 
+
 def prettify_class_name(name):
     return sub(r'(?<=.)([A-Z])', r' \1', name)
+
 
 def recursive_getattr(obj, attr, default=None):
     """
@@ -31,14 +35,6 @@ def recursive_getattr(obj, attr, default=None):
         return reduce(getattr, attr.split('.'), obj)
     except AttributeError:
         return default
-
-
-def run_scss(infile, outfile):
-    import subprocess, atexit
-
-    print('Compiling {} > {}'.format(infile, outfile))
-    proc = subprocess.Popen(['/usr/bin/sass', '--watch', '{}:{}'.format(infile, outfile)])
-    atexit.register(proc.kill)
 
 
 def is_running_main():

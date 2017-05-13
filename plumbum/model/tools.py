@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import warnings
+
 from sqlalchemy.orm import class_mapper
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 from sqlalchemy.ext.associationproxy import ASSOCIATION_PROXY
@@ -17,7 +19,9 @@ def column_name(field):
 
 def column_names(model, only_columns=None, excluded_columns=None,
                  display_all_relations=False, display_pk=False):
-    "Return a list of tuples with the model field name and formatted field name."
+    """
+    Return a list of tuples with the model field name and formatted field name.
+    """
 
     if not only_columns:
         only_columns = list_columns(model, display_all_relations, display_pk)
@@ -57,9 +61,11 @@ def list_columns(model, display_all_relations=False, display_pk=False):
                 columns.append(prop.key)
         elif hasattr(prop, 'columns'):
             if len(prop.columns) > 1:
-                filtered = list(filter(lambda c: c.table == model.__table__, columns))
+                filtered = list(filter(lambda c: c.table == model.__table__,
+                                       columns))
                 if len(filtered) > 1:
-                    warnings.warn("Can not convert multiple-column properties ({}.{})".format(model, prop.key))
+                    warnings.warn("Can not convert multiple-column properties "
+                                  "({}.{})".format(model, prop.key))
                     continue
                 column = filtered[0]
             else:
@@ -104,10 +110,12 @@ def get_field_with_path(model, name, return_remote_proxy_attr=True):
     else:
         attr = value
 
-        if isinstance(attr, InstrumentedAttribute) or is_association_proxy(attr):
+        if isinstance(attr, InstrumentedAttribute) or \
+                is_association_proxy(attr):
             columns = get_columns_for_field(attr)
             if len(columns) > 1:
-                raise Exception('Can only handle one columm for {}'.format(name))
+                raise Exception('Can only handle one columm for {}'.format(
+                                name))
 
             column = columns[0]
 
@@ -122,7 +130,8 @@ def get_columns_for_field(field):
             not hasattr(field, 'property') or
             not hasattr(field.property, 'columns') or
             not field.property.columns):
-        raise Exception("Invalid field {}: does not contains any columns.".format(field))
+        raise Exception("Invalid field {}: does not contains any columns."
+                        .format(field))
 
     return field.property.columns
 
@@ -135,5 +144,7 @@ def need_join(model, table):
 def is_relationship(attr):
     return hasattr(attr, 'property') and hasattr(attr.property, 'direction')
 
+
 def is_association_proxy(attr):
-    return hasattr(attr, 'extension_type') and attr.extension_type == ASSOCIATION_PROXY
+    return hasattr(attr, 'extension_type') and \
+           attr.extension_type == ASSOCIATION_PROXY

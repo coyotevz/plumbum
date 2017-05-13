@@ -176,7 +176,8 @@ class ModelView(BaseView):
 
     form_base_class = BaseForm
     """
-    Base form class. Will be used by form scaffolding function when creating model form.
+    Base form class. Will be used by form scaffolding function when creating
+    model form.
     """
 
     field_args = None
@@ -252,7 +253,7 @@ class ModelView(BaseView):
     Allow to select page size via dropdown list
     """
 
-    simple_list_pager = False
+    simple_pager = False
     """
     Enable or disable simple list pager (only show prev/next buttons).
     """
@@ -327,7 +328,9 @@ class ModelView(BaseView):
             self.column_type_formatters = dict(typefmt.BASE_FORMATTERS)
 
         if self.column_type_formatters_export is None:
-            self.column_type_formatters_export = dict(typefmt.EXPORT_FORMATTERS)
+            self.column_type_formatters_export = dict(
+                typefmt.EXPORT_FORMATTERS
+            )
 
         # Filters
 
@@ -346,7 +349,8 @@ class ModelView(BaseView):
         if self.form:
             return self.form
 
-        field_args = {field: { 'label': label } for field, label in self._form_fields}
+        field_args = {field: {'label': label}
+                      for field, label in self._form_fields}
 
         if self.field_args:
             field_args.update(self.field_args)
@@ -383,12 +387,11 @@ class ModelView(BaseView):
 
     def get_list(self, page, sort_field, sort_desc, search, filters,
                  page_size=None):
-        "Return a paginated list and sorted list of model from the data source."
-        joins = {}
-        count_joins = {}
-
+        """
+        Return a paginated list and sorted list of model from the data source.
+        """
         query = self.get_query()
-        count_query = self.get_count_query() if not self.simple_list_pager else None
+        count_query = self.get_count_query() if not self.simple_pager else None
 
         # Apply search criteria
 
@@ -414,7 +417,8 @@ class ModelView(BaseView):
 
     def handle_view_exception(self, exc):
         if isinstance(exc, IntegrityError):
-            flash(gettext('Integrity error. %(message)s', message=exc), 'error')
+            flash(gettext('Integrity error. %(message)s', message=exc),
+                  'error')
             return True
 
         if isinstance(exc, ValidationError):
@@ -438,8 +442,8 @@ class ModelView(BaseView):
             self.session.commit()
         except Exception as ex:
             if not self.handle_view_exception(ex):
-                flash(gettext('Failed to create record. %(error)s', error=ex), 'error')
-                log.exception('Failed to created record.')
+                flash(gettext('Failed to create record. %(error)s', error=ex),
+                      'error')
 
             self.session.rollback()
             return False
@@ -459,13 +463,12 @@ class ModelView(BaseView):
     def empty_list_message(self):
         return gettext('There are no items in the table.')
 
-
     # URL generation helpers
     def _get_list_extra_args(self):
         "Return arguments from query string"
         args = request.args
         return ViewArgs(page=args.get('page', 0, type=int),
-                        page_size=args.get('page_size', 0,type=int),
+                        page_size=args.get('page_size', 0, type=int),
                         sort=args.get('sort', None, type=int),
                         sort_desc=args.get('desc', None, type=int),
                         search=args.get('search', None),
@@ -479,7 +482,8 @@ class ModelView(BaseView):
             for i, pair in enumerate(filters):
                 idx, flt_name, value = pair
 
-                key = 'flt{}_{}'.format(i, self.get_filter_arg(idx, self._filters[idx]))
+                key = 'flt{}_{}'.format(i, self.get_filter_arg(idx,
+                                        self._filters[idx]))
                 kwargs[key] = value
         return kwargs
 
@@ -488,7 +492,8 @@ class ModelView(BaseView):
         page = view_args.page or None
         desc = 1 if view_args.sort_desc else None
 
-        kwargs = dict(page=page, sort=view_args.sort, desc=desc, search=view_args.search)
+        kwargs = dict(page=page, sort=view_args.sort, desc=desc,
+                      search=view_args.search)
         kwargs.update(view_args.extra_args)
 
         if view_args.page_size:
@@ -497,7 +502,6 @@ class ModelView(BaseView):
         kwargs.update(self._get_filters(view_args.filters))
 
         return self.get_url('.index_view', **kwargs)
-
 
     def _get_list_value(self, context, model, name, column_formatters,
                         column_type_formatters):
@@ -603,13 +607,16 @@ class ModelView(BaseView):
                 elif '_continue_editing' in request.form:
                     # if we have a valid model, try to go to the edit view
                     if model is not True:
-                        url = self.get_url('.edit_view', id=self.get_pk_value(model), url=return_url)
+                        url = self.get_url('.edit_view',
+                                           id=self.get_pk_value(model),
+                                           url=return_url)
                     else:
                         url = return_url
                     return redirect(url)
                 else:
                     # save button
-                    return redirect(self.get_save_return_url(model, is_created=True))
+                    return redirect(self.get_save_return_url(model,
+                                                             is_created=True))
 
         if self.create_modal and request.args.get('modal'):
             template = self.create_modal_template
@@ -619,7 +626,6 @@ class ModelView(BaseView):
         return self.render(template,
                            form=form,
                            return_url=return_url)
-
 
     # Exports
     @expose('/export/<export_type>/')
@@ -655,7 +661,9 @@ class ModelView(BaseView):
                 yield writer.writerow(vals)
 
         filename = self.get_export_filename(export_type='csv')
-        disposition = 'attachment;filename={}'.format(secure_filename(filename))
+        disposition = 'attachment;filename={}'.format(
+            secure_filename(filename)
+        )
 
         return Response(
             stream_with_context(generate()),
@@ -672,7 +680,9 @@ class ModelView(BaseView):
             return redirect(return_url)
 
         filename = self.get_export_filename(export_type)
-        disposition = 'attachment;filename={}'.format(secure_filename(filename))
+        disposition = 'attachment;filename={}'.format(
+            secure_filename(filename)
+        )
         mimetype, encoding = mimetypes.guess_type(filename)
 
         if not mimetype:
@@ -685,7 +695,8 @@ class ModelView(BaseView):
         count, data = self._export_data()
 
         for row in data:
-            vals = [self.get_export_value(row, c[0]) for c in self._export_columns]
+            vals = [self.get_export_value(row, c[0])
+                    for c in self._export_columns]
             ds.append(vals)
 
         try:
@@ -694,7 +705,8 @@ class ModelView(BaseView):
             except AttributeError:
                 response_data = getattr(ds, export_type)
         except (AttributeError, tablib.UnsuportedFormat):
-            flash(gettext('Export type "%(type)s" is not supported.', type=export_type), 'error')
+            flash(gettext('Export type "%(type)s" is not supported.',
+                          type=export_type), 'error')
             return redirect(return_url)
 
         return Response(
@@ -704,12 +716,12 @@ class ModelView(BaseView):
         )
 
     def _export_data(self):
-        for col, func in self.column_formatters_export.items():
+        for col, f in self.column_formatters_export.items():
             # skip checkin columns not being exported
             if col not in [col for col, _ in self._export_columns]:
                 continue
 
-            if func.__name__ == 'inner':
+            if f.__name__ == 'inner':
                 raise NotImplementedError(
                     "Macros are not implemented in export. Exclude column in "
                     "column_formatters_export, column_export_list, or "
