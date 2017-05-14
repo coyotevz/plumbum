@@ -933,9 +933,9 @@ class ModelView(BaseView):
                 response_data = ds.export(format=export_type)
             except AttributeError:
                 response_data = getattr(ds, export_type)
-        except (AttributeError, tablib.UnsuportedFormat):
-            flash(gettext('Export type "%(type)s" is not supported.',
-                          type=export_type), 'error')
+        except (AttributeError, tablib.UnsupportedFormat):
+            flash(lazy_gettext('Export type "%(type)s" is not supported.',
+                               type=export_type), 'error')
             return redirect(return_url)
 
         return Response(
