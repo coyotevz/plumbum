@@ -6,8 +6,10 @@ import time
 from math import ceil
 from urllib.parse import urljoin, urlparse
 
-from sqlalchemy import func
+from sqlalchemy import func, Table
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import aliased
+from sqlalchemy.sql.expression import desc
 from werkzeug import secure_filename
 from flask import Response, request, redirect, flash, stream_with_context
 from jinja2 import contextfunction
@@ -509,11 +511,93 @@ class ModelView(BaseView):
         "Return a the count query for the model type"
         return self.session.query(func.count('*')).select_from(self.model)
 
-    def get_list(self, page, sort_field, sort_desc, search, filters,
+    def _order_by(self, query, joins, sort_joins, sort_field, sort_desc):
+        if sort_field is not None:
+            # Handle joins
+            query, joins, alias = self._apply_path_joins(query, joins, sort_joins, inner_join=False)
+            column = sort_field if alias is None else getattr(alias, sort_field.key)
+
+            if sort_desc:
+                if isinstance(column, tuple):
+                    query = query.order_by(*map(desc, column))
+                else:
+                    query = query.order_by(desc(column))
+            else:
+                if isinstance(column, tuple):
+                    query = query.order_by(*column)
+                else:
+                    query = query.order_by(column)
+
+        return query, joins
+
+    def _get_default_order(self):
+        "Return default sort order"
+        order = None
+        if self.column_default_sort:
+            if isinstance(self.column_default_sort, tuple):
+                order = self.column_default_sort
+            else:
+                order = self.column_default_sort, False
+
+        if order is not None:
+            field, direction = order
+            attr, joins = tools.get_field_with_path(self.model, field)
+            return attr, joins, direction
+
+        return None
+
+    def _apply_sorting(self, query, joins, sort_column, sort_desc):
+        if sort_column is not None:
+            if sort_column in self._sortable_columns:
+                sort_field = self._sortable_columns[sort_column]
+                sort_joins = self._sortable_joins.get(sort_column)
+
+                query, joins = self._order_by(query, joins, sort_joins,
+                                              sort_field, sort_desc)
+        else:
+            order = self._get_default_order()
+
+            if order:
+                sort_field, sort_joins, sort_desc = order
+                query, joins = self._order_by(query, joins, sort_joins,
+                                              sort_field, sort_desc)
+        return query, joins
+
+    def _apply_path_joins(self, query, joins, path, inner_join=True):
+        last = None
+        if path:
+            for item in path:
+                key = (inner_join, item)
+                alias = joins.get(key)
+
+                if key not in joins:
+                    if not isinstance(item, Table):
+                        alias = aliased(item.property.mapper.class_)
+
+                    fn = query.join if inner_join else query.outerjoin
+
+                    if last is None:
+                        query = fn(item) if alias is None else fn(alias, item)
+                    else:
+                        prop = getattr(last, item.key)
+                        query = fn(prop) if alias is None else fn(alias, prop)
+
+                    joins[key] = alias
+
+                last = alias
+
+        return query, joins, last
+
+    def get_list(self, page, sort_column, sort_desc, search, filters,
                  page_size=None):
         """
         Return a paginated list and sorted list of model from the data source.
         """
+
+        # Will contain join paths with optional aliased object
+        joins = {}
+        count_joins = {}
+
         query = self.get_query()
         count_query = self.get_count_query() if not self.simple_pager else None
 
@@ -527,6 +611,7 @@ class ModelView(BaseView):
         # Apply auto join
 
         # Apply sorting
+        query, joins = self._apply_sorting(query, joins, sort_column, sort_desc)
 
         # Apply pagination
 
