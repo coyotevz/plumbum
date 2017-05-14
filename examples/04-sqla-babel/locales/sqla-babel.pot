@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-13 13:42-0300\n"
+"POT-Creation-Date: 2017-05-14 02:12-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,109 +17,153 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.4.0\n"
 
-#: app.py:82
-msgid "Post Title"
+#: app.py:74
+msgid "First Name"
+msgstr ""
+
+#: app.py:75
+msgid "Last Name"
+msgstr ""
+
+#: app.py:76
+msgid "Username"
+msgstr ""
+
+#: app.py:77
+msgid "Email"
+msgstr ""
+
+#: app.py:78
+msgid "Posts"
 msgstr ""
 
 #: app.py:87
+msgid "Post Title"
+msgstr ""
+
+#: app.py:88
+msgid "Date"
+msgstr ""
+
+#: app.py:89 app.py:107
+msgid "User"
+msgstr ""
+
+#: app.py:90
+msgid "Tags"
+msgstr ""
+
+#: app.py:95
 msgid "Big Text"
 msgstr ""
 
-#: app.py:97
+#: app.py:102
+msgid "Post"
+msgstr ""
+
+#: app.py:105
 msgid "Example: SQLAlchemy + Babel"
+msgstr ""
+
+#: app.py:108
+msgid "Tag"
 msgstr ""
 
 #: templates/plumbum/index.html:7
 msgid "Plumbum example"
 msgstr ""
 
+#: templates/plumbum/index.html:8
+msgid "Basic SQLAlchemy model views."
+msgstr ""
+
 #: templates/plumbum/index.html:9
 msgid ""
 "\n"
-"            This example shows how to add basic CRUD-views for your "
-"SQLAlchemy models.\n"
+"            This example shows how to add basic CRUD-views for your\n"
+"            SQLAlchemy models.\n"
 "        "
 msgstr ""
 
-#: templates/plumbum/index.html:12
+#: templates/plumbum/index.html:13
 msgid ""
 "\n"
-"            This views are generated automatically, but it is perfectly "
-"possible to cusomize them to suit your needs.\n"
+"            This views are generated automatically, but it is perfectly\n"
+"            possible to cusomize them to suit your needs.\n"
 "        "
 msgstr ""
 
-#: templates/plumbum/index.html:16
+#: templates/plumbum/index.html:18
 msgid "Back"
-msgstr ""
-
-#: templates/plumbum/index.html:21 templates/plumbum/index.html:29
-#: templates/plumbum/index.html:37 templates/plumbum/index.html:45
-#: templates/plumbum/index.html:53
-msgid "Close"
-msgstr ""
-
-#: templates/plumbum/index.html:22 templates/plumbum/index.html:30
-#: templates/plumbum/index.html:38 templates/plumbum/index.html:46
-#: templates/plumbum/index.html:54
-msgid "Comment"
 msgstr ""
 
 #: templates/plumbum/index.html:23 templates/plumbum/index.html:31
 #: templates/plumbum/index.html:39 templates/plumbum/index.html:47
 #: templates/plumbum/index.html:55
-msgid "Rename repository"
+msgid "Close"
 msgstr ""
 
 #: templates/plumbum/index.html:24 templates/plumbum/index.html:32
 #: templates/plumbum/index.html:40 templates/plumbum/index.html:48
 #: templates/plumbum/index.html:56
-msgid "Sign up for free"
+msgid "Comment"
 msgstr ""
 
 #: templates/plumbum/index.html:25 templates/plumbum/index.html:33
 #: templates/plumbum/index.html:41 templates/plumbum/index.html:49
 #: templates/plumbum/index.html:57
-msgid "Try it for free"
+msgid "Rename repository"
 msgstr ""
 
 #: templates/plumbum/index.html:26 templates/plumbum/index.html:34
 #: templates/plumbum/index.html:42 templates/plumbum/index.html:50
 #: templates/plumbum/index.html:58
+msgid "Sign up for free"
+msgstr ""
+
+#: templates/plumbum/index.html:27 templates/plumbum/index.html:35
+#: templates/plumbum/index.html:43 templates/plumbum/index.html:51
+#: templates/plumbum/index.html:59
+msgid "Try it for free"
+msgstr ""
+
+#: templates/plumbum/index.html:28 templates/plumbum/index.html:36
+#: templates/plumbum/index.html:44 templates/plumbum/index.html:52
+#: templates/plumbum/index.html:60
 msgid "Outline"
 msgstr ""
 
-#: templates/plumbum/index.html:61 templates/plumbum/index.html:77
-#: templates/plumbum/index.html:80 templates/plumbum/index.html:83
-#: templates/plumbum/index.html:86 templates/plumbum/index.html:91
-#: templates/plumbum/index.html:92 templates/plumbum/index.html:93
-#: templates/plumbum/index.html:96 templates/plumbum/index.html:97
-#: templates/plumbum/index.html:98 templates/plumbum/index.html:101
-#: templates/plumbum/index.html:102 templates/plumbum/index.html:103
+#: templates/plumbum/index.html:63 templates/plumbum/index.html:79
+#: templates/plumbum/index.html:82 templates/plumbum/index.html:85
+#: templates/plumbum/index.html:88 templates/plumbum/index.html:93
+#: templates/plumbum/index.html:94 templates/plumbum/index.html:95
+#: templates/plumbum/index.html:98 templates/plumbum/index.html:99
+#: templates/plumbum/index.html:100 templates/plumbum/index.html:103
+#: templates/plumbum/index.html:104 templates/plumbum/index.html:105
 msgid "Button"
 msgstr ""
 
-#: templates/plumbum/index.html:62
+#: templates/plumbum/index.html:64
 msgid "Small button"
 msgstr ""
 
-#: templates/plumbum/index.html:63
+#: templates/plumbum/index.html:65
 msgid "Disabled button"
 msgstr ""
 
-#: templates/plumbum/index.html:66
+#: templates/plumbum/index.html:68
 msgid "Primary Button"
 msgstr ""
 
-#: templates/plumbum/index.html:71
+#: templates/plumbum/index.html:73
 msgid "Danger Button"
 msgstr ""
 
-#: templates/plumbum/index.html:72
+#: templates/plumbum/index.html:74
 msgid "Small danger button"
 msgstr ""
 
-#: templates/plumbum/index.html:73
+#: templates/plumbum/index.html:75
 msgid "Danger disabled"
 msgstr ""
 
