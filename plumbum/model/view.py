@@ -919,7 +919,7 @@ class ModelView(BaseView):
         if encoding:
             mimetype = '{}; charset={}'.format(mimetype, encoding)
 
-        ds = tablib.Dataset(headers=[c[1] for c in self._export_columns])
+        ds = tablib.Dataset(headers=[str(c[1]) for c in self._export_columns])
 
         count, data = self._export_data()
 
