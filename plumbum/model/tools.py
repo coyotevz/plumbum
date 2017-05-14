@@ -80,6 +80,31 @@ def list_columns(model, display_all_relations=False, display_pk=False):
     return columns
 
 
+def sortable_columns(model, display_pk=False):
+    "Return a dictionary of sortable columns."
+    columns = dict()
+
+    for prop in class_mapper(model).iterate_properties:
+        if hasattr(prop, 'columns'):
+            # Sanity check
+            if len(prop.columns) > 1:
+                # Multi-column properties are not supported
+                continue
+
+            column = prop.columns[0]
+
+            # Can't sort on primary or foreign keys by default
+            if column.foreign_keys:
+                continue
+
+            if display_pk and column.primary_key:
+                continue
+
+            columns[prop.key] = column
+
+    return columns
+
+
 def get_field_with_path(model, name, return_remote_proxy_attr=True):
     "Resolve property by name and figure out its join path"
     path = []

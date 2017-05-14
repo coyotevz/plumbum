@@ -3,6 +3,7 @@
 import csv
 import mimetypes
 import time
+from math import ceil
 from urllib.parse import urljoin, urlparse
 
 from sqlalchemy import func
@@ -52,6 +53,25 @@ class ViewArgs(object):
         self.search = search
         self.filters = filters
         self.extra_args = extra_args or dict()
+
+        if not self.search:
+            self.search = None
+
+    def clone(self, **kwargs):
+        if self.filters:
+            filters = list(self.filters)
+        else:
+            filters = None
+
+        kwargs.setdefault('page', self.page)
+        kwargs.setdefault('page_size', self.page_size)
+        kwargs.setdefault('sort', self.sort)
+        kwargs.setdefault('sort_desc', self.sort_desc)
+        kwargs.setdefault('search', self.search)
+        kwargs.setdefault('filters', filters)
+        kwargs.setdefault('extra_args', dict(self.extra_args))
+
+        return ViewArgs(**kwargs)
 
 
 class FilterGroup(object):
@@ -178,6 +198,16 @@ class ModelView(BaseView):
     Dictionary where keys is column name and value is description.
     """
 
+    column_sortable_list = None
+    """
+    Collection of the sortable columns for the list view.
+    """
+
+    column_default_sort = None
+    """
+    Default sort column if no sorting is applied.
+    """
+
     # Form settings
     form = None
     """
@@ -291,18 +321,12 @@ class ModelView(BaseView):
         "Calculate various instance variables"
         # List view
         self._list_columns = self.get_list_columns()
+        self._sortable_columns = self.get_sortable_columns()
 
         # Detail view
 
         # Export view
         self._export_columns = self.get_export_columns()
-        # self._export_columns = tools.column_names(
-        #     model=self.model,
-        #     only_columns=self.column_export_list or self.column_list,
-        #     excluded_columns=self.column_export_exclude_list,
-        #     display_all_relations=self.column_display_all_relations,
-        #     display_pk=self.column_display_pk,
-        # )
 
         # Labels
         if self.column_labels is None:
@@ -334,6 +358,9 @@ class ModelView(BaseView):
             self.column_type_formatters_export = dict(
                 typefmt.EXPORT_FORMATTERS
             )
+
+        if self.column_descriptions is None:
+            self.column_descriptions = dict()
 
         # Filters
 
@@ -415,11 +442,58 @@ class ModelView(BaseView):
             excluded_columns=self.column_export_exclude_list,
         )
 
+    def get_sortable_columns(self):
+        self._sortable_joins = dict()
+
+        if self.column_sortable_list is None:
+            return self.build_sortable_columns()
+        else:
+            result = dict()
+
+            for c in self.column_sortable_list:
+                if isinstance(c, tuple):
+                    column, path = tools.get_field_with_path(self.model, c[1])
+                    column_name = c[0]
+                else:
+                    column, path = tools.get_field_with_path(self.model, c)
+                    column_name = text_type(c)
+
+                if path and hasattr(path[0], 'property'):
+                    self._sortable_joins[column_name] = path
+                elif path:
+                    raise Exception("For sorting columns in a related table, "
+                                    "column_sortable_list requires a string "
+                                    "like '<relation name>.<column name>'. "
+                                    "Failed on: {0}".format(c))
+                else:
+                    # column is in same table, use only model attribute name
+                    if getattr(column, 'key', None) is not None:
+                        column_name = column.key
+                    else:
+                        column_name = c
+
+                # column_name must match column_name used in `get_list_columns`
+                result[column_name] = column
+
+            return result
+
+    def build_sortable_columns(self):
+        """
+        Return a dictionary of sortable columns.
+        """
+        return tools.sortable_columns(self.model, self.column_display_pk)
+
     def get_save_return_url(self, model, is_created=False):
         "Return url where use is redirected after successful form save."
         return get_redirect_target() or self.get_url('.index_view')
 
     # Helpers
+    def is_sortable(self, name):
+        """
+        Verify if column is sortable.
+        """
+        return name.lower() in (x.lower() for x in self._sortable_columns)
+
     def _get_column_by_idx(self, idx):
         "Return column index by"
         if idx is None or idx < 0 or idx >= len(self._list_columns):
@@ -619,6 +693,20 @@ class ModelView(BaseView):
                                     view_args.sort_desc, view_args.search,
                                     view_args.filters, page_size=page_size)
 
+        # Calculate number of pages
+        if count is not None and page_size:
+            num_pages = int(ceil(count / float(page_size)))
+        elif not page_size:
+            num_pages = 0  # hide pager for unlimited page_size
+        else:
+            num_pages = None  # use simple pager
+
+        def sort_url(column, invert=False, desc=None):
+            if not desc and invert and not view_args.sort_desc:
+                desc = 1
+
+            return self._get_list_url(view_args.clone(sort=column, sort_desc=desc))
+
         return self.render(
             self.list_template,
             data=data,
@@ -628,8 +716,14 @@ class ModelView(BaseView):
 
             # Pagination
             count=count,
+            num_pages=num_pages,
             page=view_args.page,
             page_size=page_size,
+
+            # Sorting
+            sort_column=view_args.sort,
+            sort_desc=view_args.sort_desc,
+            sort_url=sort_url,
 
             # Misc
             get_value=self.get_list_value,

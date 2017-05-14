@@ -18,7 +18,25 @@
             {% for c, name in list_columns %}
               {% set column = loop.index0 %}
               <th class="column-header col-{{ c }}">
-                {{ name }}
+                {% if view.is_sortable(c) %}
+                  {% if sort_column == column %}
+                    <a href="{{ sort_url(column, True) }}" title="{{ _gettext('Sort by %(name)s', name=name) }}">
+                      {{ name }}
+                      {% if sort_desc %}
+                        <span class="fa fa-chevron-up"></span>
+                      {% else %}
+                        <span class="fa fa-chevron-down"></span>
+                      {% endif %}
+                    </a>
+                  {% else %}
+                    <a href="{{ sort_url(column) }}" title="{{ _gettext('Sort by %(name)s', name=name) }}">{{ name }}</a>
+                  {% endif %}
+                {% else %}
+                  {{ name }}
+                {% endif %}
+                {% if view.column_descriptions.get(c) %}
+                  <a class="fa fa-question-circle" title="{{ view.column_descriptions[c] }}" href="javascript:void(0)" data-role="tooltip"></a>
+                {% endif %}
               </th>
             {% endfor %}
           </tr>

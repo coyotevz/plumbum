@@ -77,6 +77,9 @@ class UserView(ModelView):
         'email': lazy_gettext('Email'),
         'posts': lazy_gettext('Posts'),
     }
+    column_descriptions = {
+        'username': lazy_gettext('Name for sign in'),
+    }
 
 
 # Customize Post model view
