@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plumbum 0.1.dev1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-13 04:40-0300\n"
+"POT-Creation-Date: 2017-05-14 12:30-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,37 +17,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.4.0\n"
 
-#: plumbum/base.py:220
+#: plumbum/base.py:219
 msgid "Home"
 msgstr ""
 
-#: plumbum/model/view.py:420
+#: plumbum/model/view.py:629
 #, python-format
 msgid "Integrity error. %(message)s"
 msgstr ""
 
-#: plumbum/model/view.py:445
+#: plumbum/model/view.py:654
 #, python-format
 msgid "Failed to create record. %(error)s"
 msgstr ""
 
-#: plumbum/model/view.py:464
+#: plumbum/model/view.py:673
 msgid "There are no items in the table."
 msgstr ""
 
-#: plumbum/model/view.py:604
+#: plumbum/model/view.py:833
 msgid "Record was successfully created."
 msgstr ""
 
-#: plumbum/model/view.py:636
+#: plumbum/model/view.py:865
 msgid "Permission denied."
 msgstr ""
 
-#: plumbum/model/view.py:679
+#: plumbum/model/view.py:908
 msgid "Tablib dependency not installed"
 msgstr ""
 
-#: plumbum/model/view.py:708
+#: plumbum/model/view.py:937
 #, python-format
 msgid "Export type \"%(type)s\" is not supported."
 msgstr ""
@@ -76,12 +76,18 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
-#: plumbum/templates/plumbum/model/list.html:40
+#: plumbum/templates/plumbum/model/list.html:23
+#: plumbum/templates/plumbum/model/list.html:32
+#, python-format
+msgid "Sort by %(name)s"
+msgstr ""
+
+#: plumbum/templates/plumbum/model/list.html:58
 #, python-format
 msgid "You haven't created any %(name)s yet."
 msgstr ""
 
-#: plumbum/templates/plumbum/model/list.html:43
+#: plumbum/templates/plumbum/model/list.html:61
 #, python-format
 msgid "Create a %(name)s"
 msgstr ""

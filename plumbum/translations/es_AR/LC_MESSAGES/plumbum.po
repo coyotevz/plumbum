@@ -7,49 +7,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plumbum 0.1.dev1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-13 04:40-0300\n"
+"POT-Creation-Date: 2017-05-14 12:30-0300\n"
 "PO-Revision-Date: 2017-05-13 04:44-0300\n"
 "Last-Translator: \n"
 "Language: es_AR\n"
 "Language-Team: es_AR <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.4.0\n"
-"X-Generator: Poedit 2.0.1\n"
 
-#: plumbum/base.py:220
+#: plumbum/base.py:219
 msgid "Home"
 msgstr "Inicio"
 
-#: plumbum/model/view.py:420
+#: plumbum/model/view.py:629
 #, python-format
 msgid "Integrity error. %(message)s"
 msgstr "Error de Integridad. %(message)s"
 
-#: plumbum/model/view.py:445
+#: plumbum/model/view.py:654
 #, python-format
 msgid "Failed to create record. %(error)s"
 msgstr "Fallo la creación del registro. %(error)s"
 
-#: plumbum/model/view.py:464
+#: plumbum/model/view.py:673
 msgid "There are no items in the table."
 msgstr "No hay items en la tabla."
 
-#: plumbum/model/view.py:604
+#: plumbum/model/view.py:833
 msgid "Record was successfully created."
 msgstr "El registro se creó exitosamente."
 
-#: plumbum/model/view.py:636
+#: plumbum/model/view.py:865
 msgid "Permission denied."
 msgstr "Permiso denegado."
 
-#: plumbum/model/view.py:679
+#: plumbum/model/view.py:908
 msgid "Tablib dependency not installed"
 msgstr "Dependencia Tablib no instalada"
 
-#: plumbum/model/view.py:708
+#: plumbum/model/view.py:937
 #, python-format
 msgid "Export type \"%(type)s\" is not supported."
 msgstr "El tipo de exportación \"%(type)s\" no esta soportado."
@@ -78,12 +77,19 @@ msgstr "Exportar registros"
 msgid "Export"
 msgstr "Exportar"
 
-#: plumbum/templates/plumbum/model/list.html:40
+#: plumbum/templates/plumbum/model/list.html:23
+#: plumbum/templates/plumbum/model/list.html:32
+#, python-format
+msgid "Sort by %(name)s"
+msgstr "Ordernar por %(name)s"
+
+#: plumbum/templates/plumbum/model/list.html:58
 #, python-format
 msgid "You haven't created any %(name)s yet."
 msgstr "No has creado ningún %(name)s todavia."
 
-#: plumbum/templates/plumbum/model/list.html:43
+#: plumbum/templates/plumbum/model/list.html:61
 #, python-format
 msgid "Create a %(name)s"
 msgstr "Crear un %(name)s"
+
