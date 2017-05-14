@@ -168,6 +168,16 @@ class ModelView(BaseView):
     Dictionary of value type formatters to be used in the export.
     """
 
+    column_labels = None
+    """
+    Dictionary where key is a column name and value is string to display.
+    """
+
+    column_descriptions = None
+    """
+    Dictionary where keys is column name and value is description.
+    """
+
     # Form settings
     form = None
     """
@@ -280,33 +290,26 @@ class ModelView(BaseView):
     def _scaffold(self):
         "Calculate various instance variables"
         # List view
-        self._list_columns = tools.column_names(
-            model=self.model,
-            only_columns=self.column_list,
-            excluded_columns=self.column_exclude_list,
-            display_all_relations=self.column_display_all_relations,
-            display_pk=self.column_display_pk,
-        )
+        self._list_columns = self.get_list_columns()
 
         # Detail view
 
         # Export view
-        self._export_columns = tools.column_names(
-            model=self.model,
-            only_columns=self.column_export_list or self.column_list,
-            excluded_columns=self.column_export_exclude_list,
-            display_all_relations=self.column_display_all_relations,
-            display_pk=self.column_display_pk,
-        )
+        self._export_columns = self.get_export_columns()
+        # self._export_columns = tools.column_names(
+        #     model=self.model,
+        #     only_columns=self.column_export_list or self.column_list,
+        #     excluded_columns=self.column_export_exclude_list,
+        #     display_all_relations=self.column_display_all_relations,
+        #     display_pk=self.column_display_pk,
+        # )
 
         # Labels
+        if self.column_labels is None:
+            self.column_labels = {}
 
         # Forms
-        self._form_fields = tools.column_names(
-            model=self.model,
-            only_columns=self.form_columns,
-            excluded_columns=self.form_excluded_columns,
-        )
+        self._form_fields = self.get_form_fields()
 
         # Search
 
@@ -364,6 +367,53 @@ class ModelView(BaseView):
             field_args=field_args,
             ignore_hidden=self.ignore_hidden,
             extra_fields=self.form_extra_fields)
+
+    def get_column_name(self, field):
+        """
+        Return a human-readable column name.
+        """
+        if self.column_labels and field in self.column_labels:
+            return self.column_labels[field]
+        return tools.column_name(field)
+
+    def get_column_names(self, only_columns=None, excluded_columns=None):
+        """
+        Returns a list of tuples with the model field name and formatted field
+        name.
+        """
+        if not only_columns:
+            only_columns = self.build_column_list()
+        if excluded_columns:
+            only_columns = [c for c in only_columns
+                            if c not in excluded_columns]
+        return [(c, self.get_column_name(c)) for c in only_columns]
+
+    def get_list_columns(self):
+        """
+        Uses `get_column_names` to get a list of tuple with the model field
+        name and formatted name.
+        """
+        return self.get_column_names(
+            only_columns=self.column_list,
+            excluded_columns=self.column_exclude_list,
+        )
+
+    def build_column_list(self):
+        return tools.list_columns(self.model,
+                                  self.column_display_all_relations,
+                                  self.column_display_pk)
+
+    def get_form_fields(self):
+        return self.get_column_names(
+            only_columns=self.form_columns or tools.list_columns(self.model),
+            excluded_columns=self.form_excluded_columns,
+        )
+
+    def get_export_columns(self):
+        return self.get_column_names(
+            only_columns=self.column_export_list or self.column_list,
+            excluded_columns=self.column_export_exclude_list,
+        )
 
     def get_save_return_url(self, model, is_created=False):
         "Return url where use is redirected after successful form save."
