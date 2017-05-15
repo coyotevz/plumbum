@@ -32,6 +32,7 @@ setup(
         'Flask-BabelEx',
         'flask-wtf',
         'wtforms-alchemy',
+        'flask-webpack',
     ],
     # TODO: Add classifiers
 )
