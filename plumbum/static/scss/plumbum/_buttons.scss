@@ -178,6 +178,10 @@ $primary-dark:       #28a745 !default; // $green-500 on primercss
   }
 }
 
+a.btn {
+  transition: none;
+}
+
 // Base button styles
 .btn {
   font-family: $btn-font;
