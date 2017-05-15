@@ -1,0 +1,13 @@
+
+.export-options {
+  display: inline;
+
+  .dropdown-menu {
+    font-size: $font-size-sm;
+    min-width: 6rem;
+
+    .dropdown-item {
+      padding: 3px 0.5rem;
+    }
+  }
+}

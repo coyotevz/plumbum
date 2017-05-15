@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plumbum 0.1.dev1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-14 12:30-0300\n"
+"POT-Creation-Date: 2017-05-14 21:25-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,34 +60,40 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: plumbum/templates/plumbum/model/list.html:7
-msgid "Create New Record"
-msgstr ""
-
-#: plumbum/templates/plumbum/model/list.html:7
-msgid "Create"
-msgstr ""
-
-#: plumbum/templates/plumbum/model/list.html:10
-msgid "Export records"
-msgstr ""
-
-#: plumbum/templates/plumbum/model/list.html:10
+#: plumbum/templates/plumbum/model/_list_helpers.html:5
+#: plumbum/templates/plumbum/model/_list_helpers.html:14
 msgid "Export"
 msgstr ""
 
-#: plumbum/templates/plumbum/model/list.html:23
-#: plumbum/templates/plumbum/model/list.html:32
+#: plumbum/templates/plumbum/model/_list_helpers.html:9
+#, python-format
+msgid "Export %(type)s"
+msgstr ""
+
+#: plumbum/templates/plumbum/model/_list_helpers.html:14
+msgid "Export records"
+msgstr ""
+
+#: plumbum/templates/plumbum/model/list.html:8
+msgid "Create New Record"
+msgstr ""
+
+#: plumbum/templates/plumbum/model/list.html:8
+msgid "Create"
+msgstr ""
+
+#: plumbum/templates/plumbum/model/list.html:24
+#: plumbum/templates/plumbum/model/list.html:33
 #, python-format
 msgid "Sort by %(name)s"
 msgstr ""
 
-#: plumbum/templates/plumbum/model/list.html:58
+#: plumbum/templates/plumbum/model/list.html:59
 #, python-format
 msgid "You haven't created any %(name)s yet."
 msgstr ""
 
-#: plumbum/templates/plumbum/model/list.html:61
+#: plumbum/templates/plumbum/model/list.html:62
 #, python-format
 msgid "Create a %(name)s"
 msgstr ""

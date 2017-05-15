@@ -1,0 +1,16 @@
+{% macro export_options() %}
+  {% if view.export_types|length > 1 %}
+    <div class="dropdown export-options">
+      <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+        {{ _gettext('Export') }}
+      </button>
+      <div class="dropdown-menu">
+        {% for export_type in view.export_types %}
+          <a class="dropdown-item" href="{{ get_url('.export', export_type=export_type, **request.args) }}">{{ _gettext('Export %(type)s', type=export_type|upper) }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+  <a class="btn btn-sm" href="{{ get_url('.export', export_type=view.export_types[0], **request.args) }}" title="{{ _gettext('Export records') }}">{{ _gettext('Export') }}</a>
+  {% endif %}
+{% endmacro %}
