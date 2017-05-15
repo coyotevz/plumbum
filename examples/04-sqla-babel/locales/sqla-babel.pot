@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-14 02:12-0300\n"
+"POT-Creation-Date: 2017-05-15 08:28-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,35 +37,39 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: app.py:87
-msgid "Post Title"
-msgstr ""
-
-#: app.py:88
-msgid "Date"
-msgstr ""
-
-#: app.py:89 app.py:107
-msgid "User"
+#: app.py:81
+msgid "Name for sign in"
 msgstr ""
 
 #: app.py:90
+msgid "Post Title"
+msgstr ""
+
+#: app.py:91
+msgid "Date"
+msgstr ""
+
+#: app.py:92 app.py:110
+msgid "User"
+msgstr ""
+
+#: app.py:93
 msgid "Tags"
 msgstr ""
 
-#: app.py:95
+#: app.py:98
 msgid "Big Text"
 msgstr ""
 
-#: app.py:102
+#: app.py:105
 msgid "Post"
 msgstr ""
 
-#: app.py:105
+#: app.py:108
 msgid "Example: SQLAlchemy + Babel"
 msgstr ""
 
-#: app.py:108
+#: app.py:111
 msgid "Tag"
 msgstr ""
 
@@ -133,13 +137,13 @@ msgstr ""
 msgid "Outline"
 msgstr ""
 
-#: templates/plumbum/index.html:63 templates/plumbum/index.html:79
-#: templates/plumbum/index.html:82 templates/plumbum/index.html:85
-#: templates/plumbum/index.html:88 templates/plumbum/index.html:93
-#: templates/plumbum/index.html:94 templates/plumbum/index.html:95
-#: templates/plumbum/index.html:98 templates/plumbum/index.html:99
-#: templates/plumbum/index.html:100 templates/plumbum/index.html:103
-#: templates/plumbum/index.html:104 templates/plumbum/index.html:105
+#: templates/plumbum/index.html:63 templates/plumbum/index.html:82
+#: templates/plumbum/index.html:85 templates/plumbum/index.html:88
+#: templates/plumbum/index.html:91 templates/plumbum/index.html:96
+#: templates/plumbum/index.html:97 templates/plumbum/index.html:98
+#: templates/plumbum/index.html:101 templates/plumbum/index.html:102
+#: templates/plumbum/index.html:103 templates/plumbum/index.html:106
+#: templates/plumbum/index.html:107 templates/plumbum/index.html:108
 msgid "Button"
 msgstr ""
 
@@ -148,22 +152,42 @@ msgid "Small button"
 msgstr ""
 
 #: templates/plumbum/index.html:65
+msgid "Extra small button"
+msgstr ""
+
+#: templates/plumbum/index.html:66
 msgid "Disabled button"
 msgstr ""
 
-#: templates/plumbum/index.html:68
+#: templates/plumbum/index.html:69
 msgid "Primary Button"
 msgstr ""
 
-#: templates/plumbum/index.html:73
-msgid "Danger Button"
+#: templates/plumbum/index.html:70
+msgid "Small primary button"
 msgstr ""
 
-#: templates/plumbum/index.html:74
-msgid "Small danger button"
+#: templates/plumbum/index.html:71
+msgid "xs primary button"
+msgstr ""
+
+#: templates/plumbum/index.html:72
+msgid "Primary disabled"
 msgstr ""
 
 #: templates/plumbum/index.html:75
+msgid "Danger Button"
+msgstr ""
+
+#: templates/plumbum/index.html:76
+msgid "Small danger button"
+msgstr ""
+
+#: templates/plumbum/index.html:77
+msgid "xs danger button"
+msgstr ""
+
+#: templates/plumbum/index.html:78
 msgid "Danger disabled"
 msgstr ""
 

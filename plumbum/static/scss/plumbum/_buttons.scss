@@ -255,6 +255,13 @@ $primary-dark:       #28a745 !default; // $green-500 on primercss
   line-height: 20px;
 }
 
+.btn-xs {
+  padding: 3px 10px;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
 .btn-large {
   padding: 0.75em 1.25em;
   font-size: inherit;
