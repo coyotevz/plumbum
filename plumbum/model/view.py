@@ -21,7 +21,7 @@ except ImportError:
     tablib = None
 
 from ..base import BaseView, expose
-from ..babel import gettext
+from ..babel import gettext, lazy_gettext
 from ..form import BaseForm, build_form
 from ..tools import prettify_class_name
 from . import tools
@@ -112,6 +112,14 @@ class ModelView(BaseView):
     edit_modal = False
     create_modal = False
     details_modal = False
+
+    # Labels & tooltips
+    create_label = lazy_gettext('Create')
+    create_tooltip = lazy_gettext('Create New Record')
+    edit_label = lazy_gettext('Edit')
+    edit_tooltip = lazy_gettext('Edit Record')
+    delete_label = lazy_gettext('Delete')
+    delete_tooltip = lazy_gettext('Delete Record')
 
     # Customizations
     column_list = None

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plumbum 0.1.dev1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-14 21:25-0300\n"
+"POT-Creation-Date: 2017-05-15 16:08-0300\n"
 "PO-Revision-Date: 2017-05-13 04:44-0300\n"
 "Last-Translator: \n"
 "Language: es_AR\n"
@@ -22,33 +22,61 @@ msgstr ""
 msgid "Home"
 msgstr "Inicio"
 
-#: plumbum/model/view.py:629
+#: plumbum/model/view.py:117
+msgid "Create"
+msgstr "Crear"
+
+#: plumbum/model/view.py:118
+msgid "Create New Record"
+msgstr "Crear Nuevo Registro"
+
+#: plumbum/model/view.py:119
+msgid "Edit"
+msgstr "Editar"
+
+#: plumbum/model/view.py:120
+msgid "Edit Record"
+msgstr "Editar Registro"
+
+#: plumbum/model/view.py:121
+msgid "Delete"
+msgstr "Borrar"
+
+#: plumbum/model/view.py:122
+msgid "Delete Record"
+msgstr "Borrar Registro"
+
+#: plumbum/model/view.py:655
 #, python-format
 msgid "Integrity error. %(message)s"
 msgstr "Error de Integridad. %(message)s"
 
-#: plumbum/model/view.py:654
+#: plumbum/model/view.py:680
 #, python-format
 msgid "Failed to create record. %(error)s"
 msgstr "Fallo la creación del registro. %(error)s"
 
-#: plumbum/model/view.py:673
+#: plumbum/model/view.py:699
 msgid "There are no items in the table."
 msgstr "No hay items en la tabla."
 
-#: plumbum/model/view.py:833
+#: plumbum/model/view.py:859
 msgid "Record was successfully created."
 msgstr "El registro se creó exitosamente."
 
-#: plumbum/model/view.py:865
+#: plumbum/model/view.py:899
+msgid "Record does not exist."
+msgstr "El registro no existe."
+
+#: plumbum/model/view.py:916
 msgid "Permission denied."
 msgstr "Permiso denegado."
 
-#: plumbum/model/view.py:908
+#: plumbum/model/view.py:959
 msgid "Tablib dependency not installed"
 msgstr "Dependencia Tablib no instalada"
 
-#: plumbum/model/view.py:937
+#: plumbum/model/view.py:988
 #, python-format
 msgid "Export type \"%(type)s\" is not supported."
 msgstr "El tipo de exportación \"%(type)s\" no esta soportado."
@@ -74,14 +102,6 @@ msgstr "Exportar %(type)s"
 #: plumbum/templates/plumbum/model/_list_helpers.html:14
 msgid "Export records"
 msgstr "Exportar registros"
-
-#: plumbum/templates/plumbum/model/list.html:8
-msgid "Create New Record"
-msgstr "Crear Nuevo Registro"
-
-#: plumbum/templates/plumbum/model/list.html:8
-msgid "Create"
-msgstr "Crear"
 
 #: plumbum/templates/plumbum/model/list.html:24
 #: plumbum/templates/plumbum/model/list.html:33

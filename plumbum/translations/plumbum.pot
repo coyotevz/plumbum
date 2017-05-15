@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plumbum 0.1.dev1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-05-14 21:25-0300\n"
+"POT-Creation-Date: 2017-05-15 16:08-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,33 +21,61 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: plumbum/model/view.py:629
+#: plumbum/model/view.py:117
+msgid "Create"
+msgstr ""
+
+#: plumbum/model/view.py:118
+msgid "Create New Record"
+msgstr ""
+
+#: plumbum/model/view.py:119
+msgid "Edit"
+msgstr ""
+
+#: plumbum/model/view.py:120
+msgid "Edit Record"
+msgstr ""
+
+#: plumbum/model/view.py:121
+msgid "Delete"
+msgstr ""
+
+#: plumbum/model/view.py:122
+msgid "Delete Record"
+msgstr ""
+
+#: plumbum/model/view.py:655
 #, python-format
 msgid "Integrity error. %(message)s"
 msgstr ""
 
-#: plumbum/model/view.py:654
+#: plumbum/model/view.py:680
 #, python-format
 msgid "Failed to create record. %(error)s"
 msgstr ""
 
-#: plumbum/model/view.py:673
+#: plumbum/model/view.py:699
 msgid "There are no items in the table."
 msgstr ""
 
-#: plumbum/model/view.py:833
+#: plumbum/model/view.py:859
 msgid "Record was successfully created."
 msgstr ""
 
-#: plumbum/model/view.py:865
+#: plumbum/model/view.py:899
+msgid "Record does not exist."
+msgstr ""
+
+#: plumbum/model/view.py:916
 msgid "Permission denied."
 msgstr ""
 
-#: plumbum/model/view.py:908
+#: plumbum/model/view.py:959
 msgid "Tablib dependency not installed"
 msgstr ""
 
-#: plumbum/model/view.py:937
+#: plumbum/model/view.py:988
 #, python-format
 msgid "Export type \"%(type)s\" is not supported."
 msgstr ""
@@ -72,14 +100,6 @@ msgstr ""
 
 #: plumbum/templates/plumbum/model/_list_helpers.html:14
 msgid "Export records"
-msgstr ""
-
-#: plumbum/templates/plumbum/model/list.html:8
-msgid "Create New Record"
-msgstr ""
-
-#: plumbum/templates/plumbum/model/list.html:8
-msgid "Create"
 msgstr ""
 
 #: plumbum/templates/plumbum/model/list.html:24
