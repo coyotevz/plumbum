@@ -94,7 +94,7 @@ class ModelView(BaseView):
     can_create = True
     can_edit = True
     can_delete = True
-    can_view_details = False
+    can_view_details = True
     can_export = False
 
     # Templates
@@ -143,6 +143,16 @@ class ModelView(BaseView):
 
         class MyModelView(ModelView):
             column_exclude_list = ('last_name', 'email')
+    """
+
+    column_details_list = None
+    """
+    Collection of the field names included in the details view.
+    """
+
+    column_details_exclude_list = None
+    """
+    Collection of fields excluded from the details view.
     """
 
     column_export_list = None
@@ -326,6 +336,8 @@ class ModelView(BaseView):
         self._sortable_columns = self.get_sortable_columns()
 
         # Detail view
+        if self.can_view_details:
+            self._details_columns = self.get_details_columns()
 
         # Export view
         self._export_columns = self.get_export_columns()
@@ -436,6 +448,12 @@ class ModelView(BaseView):
         return self.get_column_names(
             only_columns=self.form_columns or tools.list_columns(self.model),
             excluded_columns=self.form_excluded_columns,
+        )
+
+    def get_details_columns(self):
+        return self.get_column_names(
+            only_columns=self.column_details_list,
+            excluded_columns=self.column_details_exclude_list,
         )
 
     def get_export_columns(self):
@@ -854,6 +872,31 @@ class ModelView(BaseView):
 
         return self.render(template,
                            form=form,
+                           return_url=return_url)
+
+    @expose('/<int:pk>')
+    def details_view(self, pk=None):
+        """Details model view"""
+        return_url = get_redirect_target() or self.get_url('.index_view')
+
+        if not self.can_view_details:
+            return redirect(return_url)
+
+        if pk is None:
+            return redirect(return_url)
+
+        model = self.get_one(pk)
+
+        if model is None:
+            flash(gettext('Record does not exist.'), 'error')
+            return redirect(return_url)
+
+        template = self.details_template
+
+        return self.render(template,
+                           model=model,
+                           details_columns=self._details_columns,
+                           get_value=self.get_list_value,
                            return_url=return_url)
 
     # Exports

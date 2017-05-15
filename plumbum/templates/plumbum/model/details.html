@@ -1,0 +1,12 @@
+{% extends "plumbum/master.html" %}
+
+{% block body %}
+  {% block details %}
+    <dl class="dl-horizontal">
+      {% for c, name in details_columns %}
+        <dt>{{ name }}</dt>
+        <dd>{{ get_value(model, c) }}</dd>
+      {% endfor %}
+    </dl>
+  {% endblock %}
+{% endblock %}

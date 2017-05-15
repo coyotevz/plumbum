@@ -1,0 +1,22 @@
+
+// Description Lists
+
+.dl-horizontal {
+  dd {
+    @include clearfix;
+  }
+
+  @include media-breakpoint-up(sm) {
+    dt {
+      float: left;
+      width: ($dl-horizontal-offset - 20);
+      clear: left;
+      text-align: right;
+      @include text-truncate;
+    }
+
+    dd {
+      margin-left: $dl-horizontal-offset;
+    }
+  }
+}
