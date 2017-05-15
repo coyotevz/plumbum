@@ -56,9 +56,11 @@
             <div class="nav-control scrolling-tabs-container">
               <div class="fade-left"><i class="fa fa-angle-left"></i></div>
               <div class="fade-right"><i class="fa fa-angle-right"></i></div>
-              <ul class="nav-links">
-                {{ menu.render_menu() }}
-              </ul>
+              <div class="nav-links scrolling-tabs">
+                <ul class="container-fluid container-limited">
+                  {{ menu.render_menu() }}
+                </ul>
+              </div>
             </div>
           </div>
         </div>

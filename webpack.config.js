@@ -15,6 +15,8 @@ const extractCss = new ExtractTextPlugin({
   filename: '[name].[chunkhash:8].css',
 });
 
+const JQUERY = 'jquery-3.2.1.slim.js';
+
 const vendorPath = (name) => {
   return path.resolve(__dirname, 'plumbum/static/js/vendor/' + name);
 };
@@ -29,7 +31,7 @@ const config = {
   entry: {
     app: PATHS.app,
     vendor: [
-      vendorPath('jquery-3.2.1.slim.js'),
+      vendorPath(JQUERY),
       vendorPath('tether.js'),
       vendorPath('bootstrap.js'),
       vendorPath('axios.js'),
@@ -92,11 +94,18 @@ const config = {
       },
     ],
   },
+  resolve: {
+    extensions: ['.js'],
+    alias: {
+      'jquery': vendorPath(JQUERY),
+      'axios': vendorPath('axios.js'),
+    },
+  },
   plugins: [
     extractCss,
     new webpack.ProvidePlugin({
-      $: vendorPath('jquery-3.2.1.slim.js'),
-      jQuery: vendorPath('jquery-3.2.1.slim.js'),
+      $: vendorPath(JQUERY),
+      jQuery: vendorPath(JQUERY),
       Tether: vendorPath('tether.js'),
       axios: vendorPath('axios.js'),
     }),
