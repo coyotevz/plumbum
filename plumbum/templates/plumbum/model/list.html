@@ -19,58 +19,70 @@
               {% block list_header %}
                 {% for c, name in list_columns %}
                   {% set column = loop.index0 %}
-                    <th class="column-header col-{{ c }}">
-                      {% if view.is_sortable(c) %}
-                        {% if sort_column == column %}
-                          <a href="{{ sort_url(column, True) }}" title="{{ _gettext('Sort by %(name)s', name=name) }}">
-                            {{ name }}
-                            {% if sort_desc %}
-                              <span class="fa fa-caret-up"></span>
-                            {% else %}
-                              <span class="fa fa-caret-down"></span>
-                            {% endif %}
-                          </a>
-                        {% else %}
-                          <a href="{{ sort_url(column) }}" title="{{ _gettext('Sort by %(name)s', name=name) }}">{{ name }}<span class="fa fa-caret-up invisible"></span></a>
-                        {% endif %}
+                  <th class="column-header col-{{ c }}">
+                    {% if view.is_sortable(c) %}
+                      {% if sort_column == column %}
+                        <a href="{{ sort_url(column, True) }}" title="{{ _gettext('Sort by %(name)s', name=name) }}">
+                          {{ name }}
+                          {% if sort_desc %}
+                            <span class="fa fa-caret-up"></span>
+                          {% else %}
+                            <span class="fa fa-caret-down"></span>
+                          {% endif %}
+                        </a>
                       {% else %}
-                        {{ name }}
+                        <a href="{{ sort_url(column) }}" title="{{ _gettext('Sort by %(name)s', name=name) }}">{{ name }}<span class="fa fa-caret-up invisible"></span></a>
                       {% endif %}
-                      {% if view.column_descriptions.get(c) %}
-                        <a class="fa fa-question-circle" title="{{ view.column_descriptions[c] }}" href="javascript:void(0)" data-role="tooltip"></a>
-                      {% endif %}
-                    </th>
-                  {% endfor %}
-                {% endblock %}
-              </tr>
-            </thead>
-            <tbody>
-              {% block list_rows %}
-                {% for row in data %}
-                  <tr>
-                    {% for c, name in list_columns %}
-                      <td class="col-{{ c }}">
-                        {{ get_value(row, c) }}
-                      </td>
-                    {% endfor %}
-                  </tr>
+                    {% else %}
+                      {{ name }}
+                    {% endif %}
+                    {% if view.column_descriptions.get(c) %}
+                      <a class="fa fa-question-circle" title="{{ view.column_descriptions[c] }}" href="javascript:void(0)" data-role="tooltip"></a>
+                    {% endif %}
+                  </th>
                 {% endfor %}
               {% endblock %}
-            </tbody>
-          </table>
-        </div>
+            </tr>
+          </thead>
+          <tbody>
+            {% block list_rows %}
+              {% for row in data %}
+                <tr>
+                  {% for c, name in list_columns %}
+                    <td class="col-{{ c }}">
+                      {% if view.can_view_details or view.can_edit %}
+                        {% if c == link_column %}
+                          {% if view.can_view_details %}
+                            <a href="{{ get_url('.detail_view', pk=get_pk_value(row)) }}">{{ get_value(row, c) }}</a>
+                          {% elif view.can_edit %}
+                            <a href="{{ get_url('.edit_view', pk=get_pk_value(row)) }}">{{ get_value(row, c) }}</a>
+                          {% endif %}
+                        {% else %}
+                          {{ get_value(row, c) }}
+                        {% endif %}
+                      {% else %}
+                        {{ get_value(row, c) }}
+                      {% endif %}
+                    </td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            {% endblock %}
+          </tbody>
+        </table>
       </div>
-    {% else %}
-      <div class="blankstate">
-        {% block blankstate %}
-          <h3>{{ _gettext('You haven\'t created any %(name)s yet.', name=view.name|lower) }}</h3>
-          <p>{{ view.empty_list_message }}</p>
-          {% if view.can_create %}
-            <p><a href="{{ view.get_url('.create_view') }}" class="btn btn-primary">{{ _gettext('Create a %(name)s', name=view.name) }}</a></p>
-          {% endif %}
-        {% endblock %}
-      </div>
-    {% endif %}
-  {% endblock %}
-  {# vim:ft=htmljinja:sw=2
-  #}
+    </div>
+  {% else %}
+    <div class="blankstate">
+      {% block blankstate %}
+        <h3>{{ _gettext('You haven\'t created any %(name)s yet.', name=view.name|lower) }}</h3>
+        <p>{{ view.empty_list_message }}</p>
+        {% if view.can_create %}
+          <p><a href="{{ view.get_url('.create_view') }}" class="btn btn-primary">{{ _gettext('Create a %(name)s', name=view.name) }}</a></p>
+        {% endif %}
+      {% endblock %}
+    </div>
+  {% endif %}
+{% endblock %}
+{# vim:ft=htmljinja:sw=2
+#}

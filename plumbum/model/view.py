@@ -346,6 +346,7 @@ class ModelView(BaseView):
         "Calculate various instance variables"
         # List view
         self._list_columns = self.get_list_columns()
+        self._link_column = self.get_link_column()
         self._sortable_columns = self.get_sortable_columns()
 
         # Detail view
@@ -456,6 +457,14 @@ class ModelView(BaseView):
         return tools.list_columns(self.model,
                                   self.column_display_all_relations,
                                   self.column_display_pk)
+
+    def get_link_column(self):
+        if self.column_details_link in self._list_columns:
+            return self.column_details_link
+        elif isinstance(self.column_details_link, int):
+            return self._list_columns[self.column_details_link][0]
+        else:
+            return None
 
     def get_form_fields(self):
         return self.get_column_names(
@@ -829,6 +838,7 @@ class ModelView(BaseView):
 
             # List
             list_columns=self._list_columns,
+            link_column=self._link_column,
 
             # Pagination
             count=count,
