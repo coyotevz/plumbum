@@ -228,6 +228,11 @@ class ModelView(BaseView):
     Default sort column if no sorting is applied.
     """
 
+    column_details_link = None
+    """
+    Index or name of column where put link to details/edit view.
+    """
+
     # Form settings
     form = None
     """
