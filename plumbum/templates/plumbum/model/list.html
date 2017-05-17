@@ -53,7 +53,7 @@
                       {% if view.can_view_details or view.can_edit %}
                         {% if c == link_column %}
                           {% if view.can_view_details %}
-                            <a href="{{ get_url('.detail_view', pk=get_pk_value(row)) }}">{{ get_value(row, c) }}</a>
+                            <a href="{{ get_url('.details_view', pk=get_pk_value(row)) }}">{{ get_value(row, c) }}</a>
                           {% elif view.can_edit %}
                             <a href="{{ get_url('.edit_view', pk=get_pk_value(row)) }}">{{ get_value(row, c) }}</a>
                           {% endif %}

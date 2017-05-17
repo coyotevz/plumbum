@@ -344,6 +344,9 @@ class ModelView(BaseView):
 
     def _scaffold(self):
         "Calculate various instance variables"
+        # Model details
+        self._primary_key = tools.get_primary_key(self.model)
+
         # List view
         self._list_columns = self.get_list_columns()
         self._link_column = self.get_link_column()
@@ -459,7 +462,7 @@ class ModelView(BaseView):
                                   self.column_display_pk)
 
     def get_link_column(self):
-        if self.column_details_link in self._list_columns:
+        if self.column_details_link in dict(self._list_columns):
             return self.column_details_link
         elif isinstance(self.column_details_link, int):
             return self._list_columns[self.column_details_link][0]
@@ -627,6 +630,15 @@ class ModelView(BaseView):
                 last = alias
 
         return query, joins, last
+
+    def get_pk_value(self, model):
+        """
+        Return the primary key value form a model object.
+        """
+        if isinstance(self._primary_key, tuple):
+            return (getattr(model, attr) for attr in self._primary_key)
+        else:
+            return getattr(model, self._primary_key)
 
     def get_list(self, page, sort_column, sort_desc, search, filters,
                  page_size=None):
@@ -852,6 +864,7 @@ class ModelView(BaseView):
             sort_url=sort_url,
 
             # Misc
+            get_pk_value=self.get_pk_value,
             get_value=self.get_list_value,
             return_url=self._get_list_url(view_args),
         )

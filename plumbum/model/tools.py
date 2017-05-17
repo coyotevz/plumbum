@@ -161,6 +161,18 @@ def get_columns_for_field(field):
     return field.property.columns
 
 
+def get_primary_key(model):
+    "Return primary key name from a model"
+    mapper = class_mapper(model)
+    pks = [mapper.get_property_by_column(c).key for c in mapper.primary_key]
+    if len(pks) == 1:
+        return pks[0]
+    elif len(pks) > 1:
+        return tuple(pks)
+    else:
+        return None
+
+
 def need_join(model, table):
     "Check if join to a table is necessary."
     return table not in class_mapper(model).tables
