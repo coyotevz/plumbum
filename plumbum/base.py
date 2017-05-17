@@ -91,6 +91,7 @@ class BaseView(metaclass=PlumbumViewMeta):
         self.static_folder = static_folder
         self.static_url_path = static_url_path
         self.menu = None
+        self._sub_menu = []
 
         self.menu_class_name = menu_class_name
         self.menu_icon_type = menu_icon_type
@@ -98,6 +99,8 @@ class BaseView(metaclass=PlumbumViewMeta):
 
         self.plumbum = None
         self.blueprint = None
+
+        self._sub_views = []
 
         if self._default_view is None:
             raise Exception(
@@ -156,6 +159,11 @@ class BaseView(metaclass=PlumbumViewMeta):
             self.blueprint.add_url_rule(url, name, getattr(self, name),
                                         methods=methods)
 
+        for view in self._sub_views:
+            for url, name, methods in view._urls:
+                self.blueprint.add_url_rule(url, self.endpoint + '_' + name, getattr(view, name),
+                                            methods=methods)
+
         return self.blueprint
 
     def render(self, template, **kwargs):
@@ -209,6 +217,15 @@ class BaseView(metaclass=PlumbumViewMeta):
 
     def get_url(self, endpoint, **kwargs):
         return url_for(endpoint, **kwargs)
+
+    # Handle sub-views
+    def add_subview(self, view):
+        self._sub_views.append(view)
+        self._sub_menu.append(MenuView(view.name, view))
+
+    @property
+    def sub_menu(self):
+        return self._sub_menu
 
 
 class PlumbumIndexView(BaseView):

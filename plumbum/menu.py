@@ -39,7 +39,7 @@ class BaseMenu(object):
     def is_visible(self):
         return True
 
-    def is_accesible(self):
+    def is_accessible(self):
         return True
 
     def get_children(self):

@@ -64,20 +64,23 @@
             </div>
           </div>
         </div>
+        {% if view.sub_menu %}
         <div class="sub-nav-scroll scrolling-tabs-container">
           <div class="fade-left"><i class="fa fa-angle-left"></i></div>
           <div class="fade-right"><i class="fa fa-angle-right"></i></div>
           <div class="nav-links sub-nav scrolling-tabs">
             <ul class="container-fluid container-limited">
-              <li class="active"><a href="#">Files</a></li>
-              <li><a href="#">Branches</a></li>
-              <li><a href="#">Commits</a></li>
-              <li><a href="#">Tags</a></li>
-              <li><a href="#">Contributors</a></li>
-              <li><a href="#">Graph</a></li>
+              {{ menu.render_menu(view.sub_menu) }}
+              <!--li class="nav-item active"><a class="nav-link" href="#">Files</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Branches</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Commits</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Tags</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Contributors</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Graph</a></li-->
             </ul>
           </div>
         </div>
+        {% endif %}
         <div class="content-wrapper page-with-layout-nav page-with-sub-nav mt-3">
           <div class="container">
             {% block messages %}
