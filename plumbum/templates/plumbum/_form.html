@@ -2,12 +2,14 @@
 #}
 
 {% macro render_field(form, field, kwargs={}, caller=None) %}
-  <div class="form-group">
-    <label for="{{ field.id }}" class="form-control-label">
+  <div class="form-group row">
+    <label for="{{ field.id }}" class="col-sm-2 col-form-label">
       {{ field.label.text }}{% if field.flags.required %}<span style="color: red"> *</span>{% endif %}
     </label>
 
-    {{ field(class_='form-control', **kwargs)|safe }}
+    <div class="col-sm-10">
+      {{ field(class_='form-control', **kwargs)|safe }}
+    </div>
   </div>
 {% endmacro %}
 
