@@ -254,7 +254,7 @@ class Plumbum(object):
     def __init__(self, app=None, name=None, url=None, subdomain=None,
                  index_view=None, translations_path=None, endpoint=None,
                  static_url_path=None, base_template=None):
-        self.app = app
+        self.app = None
         self.translations_path = translations_path
         self._views = []
         self._menu = []
